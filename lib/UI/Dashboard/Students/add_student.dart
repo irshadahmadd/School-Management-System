@@ -18,6 +18,7 @@ class _AddStudentState extends State<AddStudent> {
   GlobalKey formkey = GlobalKey<FormState>();
   StudentModel studentModel = StudentModel();
   final fireStoreRef = FirebaseFirestore.instance.collection('Student');
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool loading = false;
 
   //Student Controllers
@@ -42,6 +43,32 @@ class _AddStudentState extends State<AddStudent> {
   TextEditingController parentsAddress = TextEditingController();
   TextEditingController parentsReligion = TextEditingController();
   int id = 0;
+  void studentIdUpdate() async {
+    await firestore
+        .collection("StudentID")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .set({"lastAssignId": id});
+  }
+
+  // getting last id
+
+  void getLastId() async {
+    final result = await firestore
+        .collection("StudentID")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .get();
+    id = result['lastAssignId'];
+    id++;
+  }
+
+  @override
+  void initState() {
+    getLastId();
+    super.initState();
+    // id++;
+    // studentIdUpdate();
+  }
+
   //drop Downs Lists
   var itemsGender = [
     '',
@@ -1047,11 +1074,10 @@ class _AddStudentState extends State<AddStudent> {
                               studentModel.parentO = parentsOccupation.text;
                               studentModel.parentA = parentsAddress.text;
                               studentModel.parentR = parentsReligion.text;
-                              studentModel.studentID = id.toString();
-
-                              FirebaseFirestore.instance
+                              studentModel.studentID = id;
+                              await firestore
                                   .collection("Student")
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .doc(id.toString())
                                   .set(studentModel.toJson())
                                   .then((value) {
                                 setState(() {
@@ -1064,6 +1090,7 @@ class _AddStudentState extends State<AddStudent> {
                                 });
                                 Utilities().toastMessage(error.toString());
                               });
+                              studentIdUpdate();
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,

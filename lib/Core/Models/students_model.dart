@@ -14,7 +14,7 @@ class StudentModel {
   String? parentA;
   String? parentR;
   String? image;
-  String? studentID;
+  int? studentID;
 
   StudentModel({
     this.studentN,

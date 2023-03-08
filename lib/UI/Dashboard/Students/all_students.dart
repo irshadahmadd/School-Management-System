@@ -267,7 +267,7 @@ class _AllStudentsState extends State<AllStudents> {
                               if (snapshots.connectionState ==
                                   ConnectionState.waiting) {
                                 return const CircularProgressIndicator(
-                                  strokeWidth: 3,
+                                  color: Colors.white,
                                 );
                               }
                               if (snapshots.hasError) {
