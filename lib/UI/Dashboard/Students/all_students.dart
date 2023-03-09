@@ -266,9 +266,7 @@ class _AllStudentsState extends State<AllStudents> {
                                 AsyncSnapshot<QuerySnapshot> snapshots) {
                               if (snapshots.connectionState ==
                                   ConnectionState.waiting) {
-                                return const CircularProgressIndicator(
-                                  color: Colors.white,
-                                );
+                                return const Text("");
                               }
                               if (snapshots.hasError) {
                                 return const Text("Some error occur");

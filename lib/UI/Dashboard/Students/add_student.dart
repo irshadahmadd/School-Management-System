@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
@@ -97,13 +98,20 @@ class _AddStudentState extends State<AddStudent> {
     'Jew',
     'Other',
   ];
-
+  String profilePicLink = "";
+  Reference ref = FirebaseStorage.instance.ref().child("profilepic.jpg");
   Future pickStudentImage() async {
     // ignore: invalid_use_of_visible_for_testing_member
     final image =
         // ignore: invalid_use_of_visible_for_testing_member
         await ImagePicker.platform.getImage(source: ImageSource.gallery);
-    if (image == null) return;
+    await ref.putFile(File(image!.path));
+
+    ref.getDownloadURL().then((value) async {
+      setState(() {
+        profilePicLink = value;
+      });
+    });
   }
 
   File? file;
@@ -994,8 +1002,8 @@ class _AddStudentState extends State<AddStudent> {
                       ),
                       Row(
                         children: [
-                          const CircleAvatar(
-                            backgroundImage: AssetImage("assets/irshad.jpg"),
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(profilePicLink),
                             radius: 50,
                           ),
                           SizedBox(
@@ -1059,6 +1067,7 @@ class _AddStudentState extends State<AddStudent> {
                         children: [
                           GestureDetector(
                             onTap: () async {
+                              
                               studentModel.studentN = studentName.text;
                               studentModel.studentG = studentGender.text;
                               studentModel.studentC = studentClass.text;
@@ -1091,6 +1100,7 @@ class _AddStudentState extends State<AddStudent> {
                                 Utilities().toastMessage(error.toString());
                               });
                               studentIdUpdate();
+                              
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,
