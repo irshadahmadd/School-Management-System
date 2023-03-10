@@ -1067,7 +1067,6 @@ class _AddStudentState extends State<AddStudent> {
                         children: [
                           GestureDetector(
                             onTap: () async {
-                              
                               studentModel.studentN = studentName.text;
                               studentModel.studentG = studentGender.text;
                               studentModel.studentC = studentClass.text;
@@ -1100,7 +1099,6 @@ class _AddStudentState extends State<AddStudent> {
                                 Utilities().toastMessage(error.toString());
                               });
                               studentIdUpdate();
-                              
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,
