@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/Core/Models/students_model.dart';
 import 'package:school_managment_system/Core/Utilities/utils.dart';
+import 'package:school_managment_system/tests.dart';
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -21,6 +23,30 @@ class _AddStudentState extends State<AddStudent> {
   final fireStoreRef = FirebaseFirestore.instance.collection('Student');
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool loading = false;
+
+  String? logourl;
+  uploadprofilePic() async {
+    FilePickerResult? filePickerResult;
+    filePickerResult = await FilePicker.platform.pickFiles(
+        type: FileType.custom, allowedExtensions: ["jpg", "png", "svg"]);
+    if (filePickerResult != null) {
+      try {
+        final bts = filePickerResult.files.single.bytes;
+        var name = filePickerResult.files.single.name;
+        print('image uploaded');
+        print('image uploaded');
+        final refrence =
+            FirebaseStorage.instance.ref().child("profiePics/$name");
+        final uploadTask = refrence.putData(bts!);
+        final snapshot = await uploadTask;
+        logourl = await snapshot.ref.getDownloadURL();
+        setState(() {});
+        print("=========================$logourl");
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
 
   //Student Controllers
   TextEditingController studentName = TextEditingController();
@@ -47,17 +73,15 @@ class _AddStudentState extends State<AddStudent> {
   void studentIdUpdate() async {
     await firestore
         .collection("StudentID")
-        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .doc(id.toString())
         .set({"lastAssignId": id});
   }
 
   // getting last id
 
   void getLastId() async {
-    final result = await firestore
-        .collection("StudentID")
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .get();
+    final result =
+        await firestore.collection("StudentID").doc(id.toString()).get();
     id = result['lastAssignId'];
     id++;
   }
@@ -98,20 +122,32 @@ class _AddStudentState extends State<AddStudent> {
     'Jew',
     'Other',
   ];
-  String profilePicLink = "";
-  Reference ref = FirebaseStorage.instance.ref().child("profilepic.jpg");
+  String? imageUrl;
+  // Reference ref = FirebaseStorage.instance.ref().child("profilepic");
   Future pickStudentImage() async {
     // ignore: invalid_use_of_visible_for_testing_member
     final image =
         // ignore: invalid_use_of_visible_for_testing_member
         await ImagePicker.platform.getImage(source: ImageSource.gallery);
-    await ref.putFile(File(image!.path));
+    var file = File(image!.path);
 
-    ref.getDownloadURL().then((value) async {
-      setState(() {
-        profilePicLink = value;
-      });
-    });
+    if (image != null) {
+      print(image.toString());
+      //Upload to Firebase
+      // var snapshot = await FirebaseStorage.instance
+      //     .ref()
+      //     .child('images/profilePic')
+      //     .putFile(file);
+      // var downloadUrl = await snapshot.ref.getDownloadURL();
+      // setState(() {
+      //   imageUrl = downloadUrl;
+      //   print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$downloadUrl");
+      // });
+    }
+
+    // else {
+    //   return "Image not pickrd";
+    // }
   }
 
   File? file;
@@ -1003,7 +1039,10 @@ class _AddStudentState extends State<AddStudent> {
                       Row(
                         children: [
                           CircleAvatar(
-                            backgroundImage: NetworkImage(profilePicLink),
+                            backgroundImage: Image.network(
+                              "$logourl",
+                              fit: BoxFit.cover,
+                            ).image,
                             radius: 50,
                           ),
                           SizedBox(
@@ -1024,7 +1063,11 @@ class _AddStudentState extends State<AddStudent> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      pickStudentImage();
+                                      setState(() {
+                                        uploadprofilePic();
+                                        print(
+                                            "=====================================>>>>>>>>>>>>>>>>>>>$imageUrl");
+                                      });
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width /
