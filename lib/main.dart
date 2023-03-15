@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:school_managment_system/Core/provider/student_provider.dart';
 import 'Core/Utilities/splash_screen.dart';
 
 void main() async {
@@ -23,12 +25,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'School Management System',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const SplashScreen());
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => StudentProvider())
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'School Management System',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const SplashScreen()),
+    );
   }
 }

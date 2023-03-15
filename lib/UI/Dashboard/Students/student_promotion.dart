@@ -1,35 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:school_managment_system/Core/Models/students_model.dart';
+import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 import '../../../Core/Constants/constants.dart';
 
+StudentModel studentModel = StudentModel();
 TextEditingController studentName = TextEditingController();
-TextEditingController studentGender = TextEditingController();
+TextEditingController fatherName = TextEditingController();
 TextEditingController studentClass = TextEditingController();
-TextEditingController studentDOB = TextEditingController();
-TextEditingController studentBloodGroup = TextEditingController();
-TextEditingController studentReligion = TextEditingController();
-TextEditingController studentAdmissionDate = TextEditingController();
+TextEditingController promotionClass = TextEditingController();
+GlobalKey formkey = GlobalKey<FormState>();
 String dropdownvalueGender = '';
 String dropdownvalueClass = '';
 String dropdownvalueReligion = '';
 DateTime date = DateTime.now();
-GlobalKey formkey = GlobalKey<FormState>();
 
-//Parents Controllers
-TextEditingController fatherName = TextEditingController();
-TextEditingController motherName = TextEditingController();
-TextEditingController parentsEmail = TextEditingController();
-TextEditingController parentsPhone = TextEditingController();
-TextEditingController parentsOccupation = TextEditingController();
-TextEditingController parentsAddress = TextEditingController();
-TextEditingController parentsReligion = TextEditingController();
-var itemsGender = [
-  '',
-  'Male',
-  'Female',
-  'Other',
-];
-var itemsClass = [
+var currentStudentsNames = [
   '',
   'First',
   'Second',
@@ -42,18 +28,10 @@ var itemsClass = [
   'Ninth',
   'Tenth',
 ];
-var itemsReligion = [
-  '',
-  'Islam',
-  'Hindu',
-  'Christan',
-  'Jew',
-  'Other',
-];
+void getCurrentStudents() {}
 
 class StudentPromotion extends StatefulWidget {
   const StudentPromotion({super.key});
-
   @override
   State<StudentPromotion> createState() => _StudentPromotionState();
 }
@@ -105,7 +83,7 @@ class _StudentPromotionState extends State<StudentPromotion> {
                         height: MediaQuery.of(context).size.height / 80,
                       ),
                       const Text(
-                        "Add New Students",
+                        "Promot Students",
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       SizedBox(
@@ -145,118 +123,8 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                           style: const TextStyle(
                                               color: Colors.white),
                                           decoration:
-                                              kTtextfieldDecoration.copyWith(),
-                                          validator: (value) {
-                                            if (studentName.text.isEmpty) {
-                                              return 'Enter your name';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Gender *",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                        child: TextFormField(
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          controller: studentGender,
-                                          decoration:
                                               kTtextfieldDecoration.copyWith(
-                                            suffixIcon: DropdownButton(
-                                              isExpanded: false,
-                                              dropdownColor:
-                                                  Colors.grey.withOpacity(0.3),
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              underline: const SizedBox(),
-
-                                              // Initial Value
-                                              value: dropdownvalueGender,
-                                              // Down Arrow Icon
-                                              icon: const Icon(
-                                                Icons.arrow_drop_down,
-                                                color: Colors.white,
-                                              ),
-                                              // Array list of items
-                                              items: itemsGender
-                                                  .map((String items) {
-                                                return DropdownMenuItem(
-                                                  value: items,
-                                                  child: Text(
-                                                    items,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                );
-                                              }).toList(),
-                                              // After selecting the desired option,it will
-                                              // change button value to selected value
-                                              onChanged: (String? newValue) {
-                                                setState(() {
-                                                  studentGender.text =
-                                                      newValue.toString();
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          validator: (value) {
-                                            if (studentGender.text.isEmpty) {
-                                              return "Select Gender";
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Class *",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                        child: TextFormField(
-                                          controller: studentClass,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          decoration:
-                                              kTtextfieldDecoration.copyWith(
-                                            suffixIcon: DropdownButton(
+                                            suffix: DropdownButton(
                                               isExpanded: false,
                                               dropdownColor:
                                                   Colors.grey.withOpacity(0.3),
@@ -272,7 +140,7 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                                 color: Colors.white,
                                               ),
                                               // Array list of items
-                                              items: itemsClass
+                                              items: currentStudentsNames
                                                   .map((String items) {
                                                 return DropdownMenuItem(
                                                   value: items,
@@ -294,11 +162,10 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                             ),
                                           ),
                                           validator: (value) {
-                                            if (studentClass.text.isEmpty) {
-                                              return "Enter class";
-                                            } else {
-                                              return null;
+                                            if (studentName.text.isEmpty) {
+                                              return 'Enter your name';
                                             }
+                                            return null;
                                           },
                                         ),
                                       ),
@@ -309,7 +176,7 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       const Text(
-                                        "DOB *",
+                                        "Father Name *",
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       SizedBox(
@@ -325,41 +192,88 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                             MediaQuery.of(context).size.height /
                                                 20,
                                         child: TextFormField(
-                                          controller: studentDOB,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          controller: fatherName,
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                          validator: (value) {
+                                            if (fatherName.text.isEmpty) {
+                                              return "Enter Father Name";
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Current Class *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: studentClass,
                                           style: const TextStyle(
                                               color: Colors.white),
                                           decoration:
-                                              kTtextfieldDecoration.copyWith(
-                                                  suffixIcon: ElevatedButton(
-                                            onPressed: () async {
-                                              DateTime? newDate =
-                                                  await showDatePicker(
-                                                context: context,
-                                                initialDate: date,
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime(2100),
-                                              );
-                                              setState(() {
-                                                studentDOB.text =
-                                                    "${newDate!.day}:${newDate.month}:${newDate.year}";
-                                              });
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                shadowColor: Colors.transparent,
-                                                tapTargetSize:
-                                                    MaterialTapTargetSize
-                                                        .shrinkWrap),
-                                            child: const Icon(
-                                              Icons.date_range,
-                                              color: Colors.white,
-                                              size: 15,
-                                            ),
-                                          )),
+                                              kTtextfieldDecoration.copyWith(),
                                           validator: (value) {
-                                            if (studentDOB.text.isEmpty) {
-                                              return "Enter DOB";
+                                            if (studentClass.text.isEmpty) {
+                                              return "Enter Current class";
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Promoted To Class*",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: promotionClass,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                          validator: (value) {
+                                            if (promotionClass.text.isEmpty) {
+                                              return "Enter Promotion class";
                                             } else {
                                               return null;
                                             }
@@ -404,6 +318,15 @@ class _StudentPromotionState extends State<StudentPromotion> {
                               // studentModel.parentA = parentsAddress.text;
                               // studentModel.parentR = parentsReligion.text;
                               // studentModel.studentID = id;
+                              // FirebaseFirestore.instance
+                              //     .collection('Student')
+                              //     .doc(id.toString())
+                              //     .update({
+                              //   'studentN': 'Some new data',
+                              //   'fatherN': 'Some new data',
+                              //   'studentC': 'Some new data',
+                              // });
+                              // print("Lasst Id============>$id");
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,
