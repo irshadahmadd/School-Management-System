@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:school_managment_system/Core/Models/students_model.dart';
+import 'package:school_managment_system/Core/Utilities/utils.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 import '../../../Core/Constants/constants.dart';
 
@@ -10,10 +13,12 @@ TextEditingController fatherName = TextEditingController();
 TextEditingController studentClass = TextEditingController();
 TextEditingController promotionClass = TextEditingController();
 GlobalKey formkey = GlobalKey<FormState>();
+FirebaseFirestore firestore = FirebaseFirestore.instance;
 String dropdownvalueGender = '';
 String dropdownvalueClass = '';
 String dropdownvalueReligion = '';
 DateTime date = DateTime.now();
+String? GlobalID;
 
 var currentStudentsNames = [
   '',
@@ -38,6 +43,7 @@ class StudentPromotion extends StatefulWidget {
 
 class _StudentPromotionState extends State<StudentPromotion> {
   @override
+  String? pclass;
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(MediaQuery.of(context).size.height / 50),
@@ -124,42 +130,9 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                               color: Colors.white),
                                           decoration:
                                               kTtextfieldDecoration.copyWith(
-                                            suffix: DropdownButton(
-                                              isExpanded: false,
-                                              dropdownColor:
-                                                  Colors.grey.withOpacity(0.3),
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              underline: const SizedBox(),
-
-                                              // Initial Value
-                                              value: dropdownvalueClass,
-                                              // Down Arrow Icon
-                                              icon: const Icon(
-                                                Icons.arrow_drop_down,
-                                                color: Colors.white,
-                                              ),
-                                              // Array list of items
-                                              items: currentStudentsNames
-                                                  .map((String items) {
-                                                return DropdownMenuItem(
-                                                  value: items,
-                                                  child: Text(
-                                                    items,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                );
-                                              }).toList(),
-                                              // After selecting the desired option,it will
-                                              // change button value to selected value
-                                              onChanged: (String? newValue) {
-                                                setState(() {
-                                                  studentClass.text =
-                                                      newValue.toString();
-                                                });
-                                              },
-                                            ),
+                                            hintText: studentModel.studentN,
+                                            hintStyle: const TextStyle(
+                                                color: Colors.white),
                                           ),
                                           validator: (value) {
                                             if (studentName.text.isEmpty) {
@@ -196,7 +169,11 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                               color: Colors.white),
                                           controller: fatherName,
                                           decoration:
-                                              kTtextfieldDecoration.copyWith(),
+                                              kTtextfieldDecoration.copyWith(
+                                                  hintText:
+                                                      studentModel.fatherN,
+                                                  hintStyle: const TextStyle(
+                                                      color: Colors.white)),
                                           validator: (value) {
                                             if (fatherName.text.isEmpty) {
                                               return "Enter Father Name";
@@ -233,7 +210,11 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                           style: const TextStyle(
                                               color: Colors.white),
                                           decoration:
-                                              kTtextfieldDecoration.copyWith(),
+                                              kTtextfieldDecoration.copyWith(
+                                                  hintText:
+                                                      studentModel.studentC,
+                                                  hintStyle: const TextStyle(
+                                                      color: Colors.white)),
                                           validator: (value) {
                                             if (studentClass.text.isEmpty) {
                                               return "Enter Current class";
@@ -271,6 +252,9 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                               color: Colors.white),
                                           decoration:
                                               kTtextfieldDecoration.copyWith(),
+                                          onChanged: (val) {
+                                            pclass = val;
+                                          },
                                           validator: (value) {
                                             if (promotionClass.text.isEmpty) {
                                               return "Enter Promotion class";
@@ -318,15 +302,21 @@ class _StudentPromotionState extends State<StudentPromotion> {
                               // studentModel.parentA = parentsAddress.text;
                               // studentModel.parentR = parentsReligion.text;
                               // studentModel.studentID = id;
-                              // FirebaseFirestore.instance
-                              //     .collection('Student')
-                              //     .doc(id.toString())
-                              //     .update({
-                              //   'studentN': 'Some new data',
-                              //   'fatherN': 'Some new data',
-                              //   'studentC': 'Some new data',
-                              // });
-                              // print("Lasst Id============>$id");
+
+                              print("this is  id $GlobalID");
+                              FirebaseFirestore.instance
+                                  .collection('Student')
+                                  .doc("$GlobalID")
+                                  .update({'studentC': '$pclass'})
+                                  .then((value) => {
+                                        Utilities()
+                                            .toastMessage("Student Promoted")
+                                      })
+                                  .onError((error, stackTrace) => {
+                                        Utilities()
+                                            .toastMessage(error.toString()),
+                                      });
+                              print("Lasst Id============>$id");
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/Core/Models/students_model.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
+import 'package:school_managment_system/UI/Dashboard/Students/student_promotion.dart';
 import 'package:school_managment_system/UI/Dashboard/dashboard_1.dart';
 
 class AllStudents extends StatefulWidget {
@@ -427,9 +428,29 @@ class _AllStudentsState extends State<AllStudents> {
                                                 child: InkWell(
                                                   onTap: () {
                                                     provider.changeScreen(2);
-
-                                                    // print(
-                                                    //     "this is index page============>>>>>>>> $studentsIndex");
+                                                    studentModel.studentN =
+                                                        snapshots
+                                                            .data!
+                                                            .docs[index]
+                                                                ["studentN"]
+                                                            .toString();
+                                                    studentModel.fatherN =
+                                                        snapshots
+                                                            .data!
+                                                            .docs[index]
+                                                                ["fatherN"]
+                                                            .toString();
+                                                    studentModel.studentC =
+                                                        snapshots
+                                                            .data!
+                                                            .docs[index]
+                                                                ["studentC"]
+                                                            .toString();
+                                                    GlobalID = snapshots
+                                                        .data!
+                                                        .docs[index]
+                                                            ["studentID"]
+                                                        .toString();
                                                   },
                                                   child: const Text(
                                                     "Edit",

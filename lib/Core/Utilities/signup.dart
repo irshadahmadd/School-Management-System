@@ -2,16 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:school_managment_system/Core/Utilities/utils.dart';
 
-import 'UI/Dashboard/dashboard_1.dart';
+import '../../UI/Dashboard/dashboard_1.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpState extends State<SignUp> {
   GlobalKey formkey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController passward = TextEditingController();
@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               .createUserWithEmailAndPassword(
                                   email: email.text, password: passward.text)
                               .then((value) => {
-                                    Utilities().toastMessage('Updated'),
+                                    Utilities().toastMessage('User Loged in'),
                                   })
                               .onError((error, stackTrace) => {
                                     Utilities().toastMessage(error.toString()),

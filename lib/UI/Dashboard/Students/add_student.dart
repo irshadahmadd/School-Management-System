@@ -235,6 +235,9 @@ class _AddStudentState extends State<AddStudent> {
                                               20,
                                       child: TextFormField(
                                         controller: studentName,
+                                        onFieldSubmitted: (value) {
+                                          studentName.clear();
+                                        },
                                         style: const TextStyle(
                                             color: Colors.white),
                                         decoration:
@@ -1072,42 +1075,27 @@ class _AddStudentState extends State<AddStudent> {
                             studentModel.parentA = parentsAddress.text;
                             studentModel.parentR = parentsReligion.text;
                             studentModel.studentID = id;
-                            if (_formkey.currentState!.validate()) {
-                              const CircularProgressIndicator(
-                                strokeWidth: 3,
-                                color: Colors.amber,
-                              );
-                              await firestore
-                                  .collection("Student")
-                                  .doc(id.toString())
-                                  .set(studentModel.toJson())
-                                  .then((value) {
-                                setState(() {
-                                  loading = false;
-                                });
-                                Utilities().toastMessage("Student Added");
-                                studentName.text = "";
-                                studentGender.text = "";
-                                studentClass.text = "";
-                                studentDOB.text = "";
-                                studentBloodGroup.text = "";
-                                studentReligion.text = "";
-                                studentAdmissionDate.text = "";
-                                fatherName.text = "";
-                                motherName.text = "";
-                                parentsEmail.text = "";
-                                parentsPhone.text = "";
-                                parentsOccupation.text = "";
-                                parentsAddress.text = "";
-                                parentsReligion.text = "";
-                              }).onError((error, stackTrace) {
-                                setState(() {
-                                  loading = false;
-                                });
-                                Utilities().toastMessage(error.toString());
+
+                            const CircularProgressIndicator(
+                              strokeWidth: 3,
+                              color: Colors.amber,
+                            );
+                            await firestore
+                                .collection("Student")
+                                .doc(id.toString())
+                                .set(studentModel.toJson())
+                                .then((value) {
+                              setState(() {
+                                loading = false;
                               });
-                              studentIdUpdate();
-                            }
+                              Utilities().toastMessage("Student Added");
+                            }).onError((error, stackTrace) {
+                              setState(() {
+                                loading = false;
+                              });
+                              Utilities().toastMessage(error.toString());
+                            });
+                            studentIdUpdate();
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width / 16,

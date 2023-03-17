@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:school_managment_system/Core/Utilities/signup.dart';
 import 'package:school_managment_system/UI/Dashboard/dashboard_1.dart';
-import 'package:school_managment_system/login.dart';
 
 class SplashServices {
   void isLogin(BuildContext context) {
@@ -17,7 +17,7 @@ class SplashServices {
       Timer(
           const Duration(seconds: 3),
           () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginScreen())));
+              MaterialPageRoute(builder: (context) => const SignUp())));
     }
   }
 }
