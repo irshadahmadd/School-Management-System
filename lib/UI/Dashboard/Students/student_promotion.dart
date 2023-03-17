@@ -251,7 +251,44 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                           style: const TextStyle(
                                               color: Colors.white),
                                           decoration:
-                                              kTtextfieldDecoration.copyWith(),
+                                              kTtextfieldDecoration.copyWith(
+                                            suffixIcon: DropdownButton(
+                                              isExpanded: false,
+                                              dropdownColor:
+                                                  Colors.grey.withOpacity(0.3),
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              underline: const SizedBox(),
+
+                                              // Initial Value
+                                              value: dropdownvalueClass,
+                                              // Down Arrow Icon
+                                              icon: const Icon(
+                                                Icons.arrow_drop_down,
+                                                color: Colors.white,
+                                              ),
+                                              // Array list of items
+                                              items: currentStudentsNames
+                                                  .map((String items) {
+                                                return DropdownMenuItem(
+                                                  value: items,
+                                                  child: Text(
+                                                    items,
+                                                    style: const TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                );
+                                              }).toList(),
+                                              // After selecting the desired option,it will
+                                              // change button value to selected value
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  promotionClass.text =
+                                                      newValue.toString();
+                                                });
+                                              },
+                                            ),
+                                          ),
                                           onChanged: (val) {
                                             pclass = val;
                                           },
@@ -310,7 +347,9 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                   .update({'studentC': '$pclass'})
                                   .then((value) => {
                                         Utilities()
-                                            .toastMessage("Student Promoted")
+                                            .toastMessage("Student Promoted"),
+                                        promotionClass =
+                                            TextEditingController(),
                                       })
                                   .onError((error, stackTrace) => {
                                         Utilities()

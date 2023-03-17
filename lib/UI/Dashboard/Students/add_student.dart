@@ -274,6 +274,9 @@ class _AddStudentState extends State<AddStudent> {
                                         style: const TextStyle(
                                             color: Colors.white),
                                         controller: studentGender,
+                                        onFieldSubmitted: (value) {
+                                          studentGender.clear();
+                                        },
                                         decoration:
                                             kTtextfieldDecoration.copyWith(
                                           suffixIcon: DropdownButton(
@@ -1085,6 +1088,20 @@ class _AddStudentState extends State<AddStudent> {
                                 .doc(id.toString())
                                 .set(studentModel.toJson())
                                 .then((value) {
+                              studentName = TextEditingController();
+                              studentGender = TextEditingController();
+                              studentClass = TextEditingController();
+                              studentDOB = TextEditingController();
+                              studentBloodGroup = TextEditingController();
+                              studentReligion = TextEditingController();
+                              studentAdmissionDate = TextEditingController();
+                              parentsAddress = TextEditingController();
+                              parentsEmail = TextEditingController();
+                              parentsOccupation = TextEditingController();
+                              parentsPhone = TextEditingController();
+                              parentsReligion = TextEditingController();
+                              fatherName = TextEditingController();
+                              motherName = TextEditingController();
                               setState(() {
                                 loading = false;
                               });
