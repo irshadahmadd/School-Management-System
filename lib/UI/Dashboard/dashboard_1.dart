@@ -6,7 +6,10 @@ import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/all_students.dart';
 import 'package:school_managment_system/UI/Dashboard/charts.dart';
+import 'package:school_managment_system/UI/Dashboard/parents/parents.dart';
 import 'package:school_managment_system/UI/Dashboard/table_calender.dart';
+import 'package:school_managment_system/UI/Dashboard/tearchers/addteacher.dart';
+import 'package:school_managment_system/UI/Dashboard/tearchers/allteachers.dart';
 
 import '../../Core/provider/student_provider.dart';
 import 'Students/student_promotion.dart';
@@ -23,10 +26,8 @@ class TestingScreen extends StatefulWidget {
 class _DashboardMainState extends State<TestingScreen> {
   TextEditingController searchController = TextEditingController();
   int index = 0;
-
   int teachersIndex = 0;
   int accountsIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     // final provider = Provider.of<StudentProvider>(context, listen: false);
@@ -1251,7 +1252,36 @@ class _DashboardMainState extends State<TestingScreen> {
                             ),
                           ),
                         )
-                      : SizedBox(),
+                      : index == 2
+                          ? Parents()
+                          : index == 3
+                              ? Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height /
+                                          80,
+                                      left: MediaQuery.of(context).size.width /
+                                          150),
+                                  child: Center(
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              1,
+                                      width:
+                                          MediaQuery.of(context).size.width / 1,
+                                      decoration: const BoxDecoration(
+                                        color: Constants.purpleLight,
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(15)),
+                                      ),
+                                      child: teachersIndex == 0
+                                          ? AllTeachers()
+                                          : teachersIndex == 1
+                                              ? AddTeacher()
+                                              : SizedBox(),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(),
             )
           ],
         ),

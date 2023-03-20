@@ -7,14 +7,14 @@ import 'package:school_managment_system/Core/provider/student_provider.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/student_promotion.dart';
 import 'package:school_managment_system/UI/Dashboard/dashboard_1.dart';
 
-class AllStudents extends StatefulWidget {
-  const AllStudents({super.key});
+class AllTeachers extends StatefulWidget {
+  const AllTeachers({super.key});
 
   @override
-  State<AllStudents> createState() => _AllStudentsState();
+  State<AllTeachers> createState() => _AllTeachersState();
 }
 
-class _AllStudentsState extends State<AllStudents> {
+class _AllTeachersState extends State<AllTeachers> {
   TextEditingController sbyNameContoller = TextEditingController();
   TextEditingController sbyClassContoller = TextEditingController();
   TextEditingController searchController = TextEditingController();
@@ -32,7 +32,7 @@ class _AllStudentsState extends State<AllStudents> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Students",
+                "Teachers",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               SizedBox(
@@ -53,7 +53,7 @@ class _AllStudentsState extends State<AllStudents> {
                     color: Colors.red,
                   ),
                   Text(
-                    "Students",
+                    "Teachers",
                     style: TextStyle(color: Colors.white),
                   )
                 ],
@@ -73,7 +73,7 @@ class _AllStudentsState extends State<AllStudents> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "All Students Data",
+                          "All Teachers Data",
                           style: TextStyle(color: Colors.white),
                         ),
                         SizedBox(

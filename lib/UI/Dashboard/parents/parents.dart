@@ -7,14 +7,14 @@ import 'package:school_managment_system/Core/provider/student_provider.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/student_promotion.dart';
 import 'package:school_managment_system/UI/Dashboard/dashboard_1.dart';
 
-class AllStudents extends StatefulWidget {
-  const AllStudents({super.key});
+class Parents extends StatefulWidget {
+  const Parents({super.key});
 
   @override
-  State<AllStudents> createState() => _AllStudentsState();
+  State<Parents> createState() => _ParentsState();
 }
 
-class _AllStudentsState extends State<AllStudents> {
+class _ParentsState extends State<Parents> {
   TextEditingController sbyNameContoller = TextEditingController();
   TextEditingController sbyClassContoller = TextEditingController();
   TextEditingController searchController = TextEditingController();
@@ -32,7 +32,7 @@ class _AllStudentsState extends State<AllStudents> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Students",
+                "Parents",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               SizedBox(
@@ -53,7 +53,7 @@ class _AllStudentsState extends State<AllStudents> {
                     color: Colors.red,
                   ),
                   Text(
-                    "Students",
+                    "Parents",
                     style: TextStyle(color: Colors.white),
                   )
                 ],
@@ -73,7 +73,7 @@ class _AllStudentsState extends State<AllStudents> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "All Students Data",
+                          "All Parents Data",
                           style: TextStyle(color: Colors.white),
                         ),
                         SizedBox(
@@ -187,7 +187,7 @@ class _AllStudentsState extends State<AllStudents> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "Name",
+                                  "Father",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -198,7 +198,7 @@ class _AllStudentsState extends State<AllStudents> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "Gender",
+                                  "Mother",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -209,7 +209,7 @@ class _AllStudentsState extends State<AllStudents> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "class",
+                                  "Occupation",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -231,7 +231,7 @@ class _AllStudentsState extends State<AllStudents> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "DOB",
+                                  "Email",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -243,14 +243,6 @@ class _AllStudentsState extends State<AllStudents> {
                                         180),
                                 child: const Text(
                                   "Phone",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              const Center(
-                                child: Text(
-                                  "Update",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -318,7 +310,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                       180),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["studentN"]
+                                                    .docs[index]["fatherN"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -332,7 +324,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                       180),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["studentG"]
+                                                    .docs[index]["motherN"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -346,7 +338,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                       180),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["studentC"]
+                                                    .docs[index]["parentO"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -374,7 +366,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                       180),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["studentDOB"]
+                                                    .docs[index]["parentE"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -394,49 +386,6 @@ class _AllStudentsState extends State<AllStudents> {
                                                     color: Colors.white),
                                               ),
                                             ),
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        20),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    provider.changeScreen(2);
-                                                    studentModel.studentN =
-                                                        snapshots
-                                                            .data!
-                                                            .docs[index]
-                                                                ["studentN"]
-                                                            .toString();
-                                                    studentModel.fatherN =
-                                                        snapshots
-                                                            .data!
-                                                            .docs[index]
-                                                                ["fatherN"]
-                                                            .toString();
-                                                    studentModel.studentC =
-                                                        snapshots
-                                                            .data!
-                                                            .docs[index]
-                                                                ["studentC"]
-                                                            .toString();
-                                                    GlobalID = snapshots
-                                                        .data!
-                                                        .docs[index]
-                                                            ["studentID"]
-                                                        .toString();
-                                                  },
-                                                  child: const Text(
-                                                    "Edit",
-                                                    style: TextStyle(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
-                                                        color: Color.fromARGB(
-                                                            255, 248, 151, 7)),
-                                                  ),
-                                                ))
                                           ]),
                                         ],
                                       );
