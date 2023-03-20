@@ -684,43 +684,33 @@ class _AddTeacherState extends State<AddTeacher> {
                                         controller: teacherJoiningDate,
                                         decoration:
                                             kTtextfieldDecoration.copyWith(
-                                          suffixIcon: DropdownButton(
-                                            isExpanded: false,
-                                            dropdownColor:
-                                                Colors.grey.withOpacity(0.3),
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            underline: const SizedBox(),
-
-                                            // Initial Value
-                                            value: dropdownvalueReligion,
-                                            // Down Arrow Icon
-                                            icon: const Icon(
-                                              Icons.arrow_drop_down,
-                                              color: Colors.white,
-                                            ),
-                                            // Array list of items
-                                            items: itemsReligion
-                                                .map((String items) {
-                                              return DropdownMenuItem(
-                                                value: items,
-                                                child: Text(
-                                                  items,
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              );
-                                            }).toList(),
-                                            // After selecting the desired option,it will
-                                            // change button value to selected value
-                                            onChanged: (String? newValue) {
-                                              setState(() {
-                                                teacherJoiningDate.text =
-                                                    newValue.toString();
-                                              });
-                                            },
+                                                suffixIcon: ElevatedButton(
+                                          onPressed: () async {
+                                            DateTime? newDate =
+                                                await showDatePicker(
+                                              context: context,
+                                              initialDate: date,
+                                              firstDate: DateTime(1900),
+                                              lastDate: DateTime(2100),
+                                            );
+                                            setState(() {
+                                              teacherJoiningDate.text =
+                                                  "${newDate!.day}:${newDate.month}:${newDate.year}";
+                                            });
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              shadowColor: Colors.transparent,
+                                              tapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap),
+                                          child: const Icon(
+                                            Icons.date_range,
+                                            color: Colors.white,
+                                            size: 15,
                                           ),
-                                        ),
+                                        )),
                                         validator: (value) {
                                           if (teacherJoiningDate.text.isEmpty) {
                                             return "Select Gender";

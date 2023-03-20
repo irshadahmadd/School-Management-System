@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
-import 'package:school_managment_system/UI/Dashboard/Students/student_promotion.dart';
 
 class AllTeachers extends StatefulWidget {
   const AllTeachers({super.key});
@@ -186,17 +185,6 @@ class _AllTeachersState extends State<AllTeachers> {
                                         180),
                                 child: const Text(
                                   "Frist Name",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width /
-                                        180),
-                                child: const Text(
-                                  "Last Name",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),

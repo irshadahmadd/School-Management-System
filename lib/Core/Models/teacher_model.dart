@@ -52,8 +52,8 @@ class TeacherModel {
     data['temail'] = temail;
     data['tphone'] = tphone;
     data['tsubject'] = tsubject;
-    data['taddrss'] = taddrss;
-    data['tjoiningDate'] = tjoiningDate;
+    data['taddress'] = taddrss;
+    data['tjoiningdate'] = tjoiningDate;
     data['teacherID'] = teacherID;
     return data;
   }

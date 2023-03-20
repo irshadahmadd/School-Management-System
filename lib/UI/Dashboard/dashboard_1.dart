@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/all_students.dart';
+import 'package:school_managment_system/UI/Dashboard/Subects/subjects.dart';
 import 'package:school_managment_system/UI/Dashboard/charts.dart';
 import 'package:school_managment_system/UI/Dashboard/parents/parents.dart';
 import 'package:school_managment_system/UI/Dashboard/table_calender.dart';
@@ -1281,7 +1282,37 @@ class _DashboardMainState extends State<TestingScreen> {
                                     ),
                                   ),
                                 )
-                              : SizedBox(),
+                              : index == 5
+                                  ? Padding(
+                                      padding: EdgeInsets.only(
+                                          top: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              80,
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              150),
+                                      child: Center(
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              1,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1,
+                                          decoration: const BoxDecoration(
+                                            color: Constants.purpleLight,
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(15)),
+                                          ),
+                                          child: Subjects(),
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox(),
             )
           ],
         ),
