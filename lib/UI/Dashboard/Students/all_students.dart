@@ -2,14 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
-import 'package:school_managment_system/Core/Models/students_model.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/student_promotion.dart';
-import 'package:school_managment_system/UI/Dashboard/dashboard_1.dart';
 
 class AllStudents extends StatefulWidget {
   const AllStudents({super.key});
-
   @override
   State<AllStudents> createState() => _AllStudentsState();
 }
@@ -20,7 +17,6 @@ class _AllStudentsState extends State<AllStudents> {
   TextEditingController searchController = TextEditingController();
   final firestore =
       FirebaseFirestore.instance.collection("Student").snapshots();
-
   @override
   Widget build(BuildContext context) {
     // final provider = Provider.of<StudentProvider>(context, listen: true);

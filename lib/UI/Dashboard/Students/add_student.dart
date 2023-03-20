@@ -19,7 +19,7 @@ class AddStudent extends StatefulWidget {
 }
 
 class _AddStudentState extends State<AddStudent> {
-  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   StudentModel studentModel = StudentModel();
   final fireStoreRef = FirebaseFirestore.instance.collection('Student');
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -34,17 +34,17 @@ class _AddStudentState extends State<AddStudent> {
       try {
         final bts = filePickerResult.files.single.bytes;
         var name = filePickerResult.files.single.name;
-        print('image uploaded');
-        print('image uploaded');
+        // print('image uploaded');
+        // print('image uploaded');
         final refrence =
             FirebaseStorage.instance.ref().child("profiePics/$name");
         final uploadTask = refrence.putData(bts!);
         final snapshot = await uploadTask;
         logourl = await snapshot.ref.getDownloadURL();
         setState(() {});
-        print("=========================$logourl");
+        // print("=========================$logourl");
       } catch (e) {
-        print(e);
+        // print(e);
       }
     }
   }
@@ -130,9 +130,10 @@ class _AddStudentState extends State<AddStudent> {
     final image =
         // ignore: invalid_use_of_visible_for_testing_member
         await ImagePicker.platform.getImage(source: ImageSource.gallery);
+    // ignore: unused_local_variable
     var file = File(image!.path);
 
-    print(image.toString());
+    // print(image.toString());
 
     // else {
     //   return "Image not pickrd";
@@ -1019,8 +1020,8 @@ class _AddStudentState extends State<AddStudent> {
                                   onTap: () {
                                     setState(() {
                                       uploadprofilePic();
-                                      print(
-                                          "=====================================>>>>>>>>>>>>>>>>>>>$imageUrl");
+                                      // print(
+                                      //     "=====================================>>>>>>>>>>>>>>>>>>>$imageUrl");
                                     });
                                   },
                                   child: Container(

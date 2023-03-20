@@ -1,10 +1,7 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:school_managment_system/Core/Models/students_model.dart';
 import 'package:school_managment_system/Core/Utilities/utils.dart';
-import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 import '../../../Core/Constants/constants.dart';
 
 StudentModel studentModel = StudentModel();
@@ -18,6 +15,7 @@ String dropdownvalueGender = '';
 String dropdownvalueClass = '';
 String dropdownvalueReligion = '';
 DateTime date = DateTime.now();
+// ignore: non_constant_identifier_names
 String? GlobalID;
 
 var currentStudentsNames = [
@@ -42,8 +40,8 @@ class StudentPromotion extends StatefulWidget {
 }
 
 class _StudentPromotionState extends State<StudentPromotion> {
-  @override
   String? pclass;
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(MediaQuery.of(context).size.height / 50),
@@ -285,8 +283,8 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                                 setState(() {
                                                   promotionClass.text =
                                                       newValue.toString();
-                                                  print(
-                                                      "Promotion class=================>>>>>>>>$newValue");
+                                                  // print(
+                                                  //     "Promotion class=================>>>>>>>>$newValue");
                                                 });
                                               },
                                             ),
@@ -342,7 +340,7 @@ class _StudentPromotionState extends State<StudentPromotion> {
                               // studentModel.parentR = parentsReligion.text;
                               // studentModel.studentID = id;
 
-                              print("this is  id $GlobalID");
+                              // print("this is  id $GlobalID");
                               pclass = promotionClass.text;
                               FirebaseFirestore.instance
                                   .collection('Student')
@@ -358,7 +356,7 @@ class _StudentPromotionState extends State<StudentPromotion> {
                                         Utilities()
                                             .toastMessage(error.toString()),
                                       });
-                              print("Lasst Id============>$id");
+                              // print("Lasst Id============>$id");
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,

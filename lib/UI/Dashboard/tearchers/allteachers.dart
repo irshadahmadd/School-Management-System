@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
-import 'package:school_managment_system/Core/Models/students_model.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/student_promotion.dart';
-import 'package:school_managment_system/UI/Dashboard/dashboard_1.dart';
 
 class AllTeachers extends StatefulWidget {
   const AllTeachers({super.key});
@@ -19,7 +17,7 @@ class _AllTeachersState extends State<AllTeachers> {
   TextEditingController sbyClassContoller = TextEditingController();
   TextEditingController searchController = TextEditingController();
   final firestore =
-      FirebaseFirestore.instance.collection("Student").snapshots();
+      FirebaseFirestore.instance.collection("Teachers").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +185,18 @@ class _AllTeachersState extends State<AllTeachers> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "Name",
+                                  "Frist Name",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width /
+                                        180),
+                                child: const Text(
+                                  "Last Name",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -209,7 +218,7 @@ class _AllTeachersState extends State<AllTeachers> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "class",
+                                  "DOB",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -231,18 +240,7 @@ class _AllTeachersState extends State<AllTeachers> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "DOB",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width /
-                                        180),
-                                child: const Text(
-                                  "Phone",
+                                  "Subject",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -250,7 +248,7 @@ class _AllTeachersState extends State<AllTeachers> {
                               ),
                               const Center(
                                 child: Text(
-                                  "Update",
+                                  "Phone",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -304,7 +302,35 @@ class _AllTeachersState extends State<AllTeachers> {
                                               ),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["studentID"]
+                                                    .docs[index]["teacherID"]
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      180),
+                                              child: Text(
+                                                snapshots
+                                                    .data!.docs[index]["tfname"]
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      180),
+                                              child: Text(
+                                                snapshots
+                                                    .data!.docs[index]["tDOB"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -318,7 +344,7 @@ class _AllTeachersState extends State<AllTeachers> {
                                                       180),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["studentN"]
+                                                    .docs[index]["taddress"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -332,7 +358,7 @@ class _AllTeachersState extends State<AllTeachers> {
                                                       180),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["studentG"]
+                                                    .docs[index]["tsubject"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -346,7 +372,7 @@ class _AllTeachersState extends State<AllTeachers> {
                                                       180),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["studentC"]
+                                                    .docs[index]["tjoiningdate"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -359,84 +385,13 @@ class _AllTeachersState extends State<AllTeachers> {
                                                           .width /
                                                       180),
                                               child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["parentA"]
+                                                snapshots
+                                                    .data!.docs[index]["tphone"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
                                               ),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["studentDOB"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["parentP"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        20),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    provider.changeScreen(2);
-                                                    studentModel.studentN =
-                                                        snapshots
-                                                            .data!
-                                                            .docs[index]
-                                                                ["studentN"]
-                                                            .toString();
-                                                    studentModel.fatherN =
-                                                        snapshots
-                                                            .data!
-                                                            .docs[index]
-                                                                ["fatherN"]
-                                                            .toString();
-                                                    studentModel.studentC =
-                                                        snapshots
-                                                            .data!
-                                                            .docs[index]
-                                                                ["studentC"]
-                                                            .toString();
-                                                    GlobalID = snapshots
-                                                        .data!
-                                                        .docs[index]
-                                                            ["studentID"]
-                                                        .toString();
-                                                  },
-                                                  child: const Text(
-                                                    "Edit",
-                                                    style: TextStyle(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
-                                                        color: Color.fromARGB(
-                                                            255, 248, 151, 7)),
-                                                  ),
-                                                ))
                                           ]),
                                         ],
                                       );
