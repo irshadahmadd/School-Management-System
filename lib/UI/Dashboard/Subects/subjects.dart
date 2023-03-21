@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
+import 'package:school_managment_system/Core/Models/subjects_mode.dart';
+import 'package:school_managment_system/Core/Utilities/utils.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
+import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 
 class Subjects extends StatefulWidget {
   const Subjects({super.key});
@@ -15,8 +18,35 @@ class _SubjectsState extends State<Subjects> {
   TextEditingController sbyNameContoller = TextEditingController();
   TextEditingController sbyClassContoller = TextEditingController();
   TextEditingController searchController = TextEditingController();
-  final firestore =
-      FirebaseFirestore.instance.collection("Teachers").snapshots();
+  TextEditingController subjectName = TextEditingController();
+  TextEditingController teacher = TextEditingController();
+  TextEditingController classes = TextEditingController();
+  TextEditingController dayes = TextEditingController();
+  SubjectModel subjectModel = SubjectModel();
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  int sID = 0;
+  final firestoreref =
+      FirebaseFirestore.instance.collection("Subjects").snapshots();
+  void updateSubjectID() async {
+    await firestore.collection("SubjectID").doc(sID.toString()).set({
+      "lastsignID": sID,
+    }).then((value) => getLastAsignedSubjectID());
+  }
+
+  void getLastAsignedSubjectID() async {
+    final lastID =
+        await firestore.collection("SubjectID").doc(sID.toString()).get();
+    sID = lastID["lastsignID"];
+    sID++;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getLastAsignedSubjectID();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +241,92 @@ class _SubjectsState extends State<Subjects> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 40,
                       ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 5,
+                        width: MediaQuery.of(context).size.width / 1,
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: firestoreref,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshots) {
+                            if (snapshots.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Text("");
+                            }
+                            if (snapshots.hasError) {
+                              return const Text("Some error occured");
+                            }
+                            return ListView.builder(
+                                itemCount: snapshots.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  return Table(
+                                    defaultVerticalAlignment:
+                                        TableCellVerticalAlignment.middle,
+                                    border: TableBorder.symmetric(
+                                      outside: const BorderSide(
+                                          width: 1, color: Colors.white),
+                                    ),
+                                    children: [
+                                      TableRow(children: [
+                                        Padding(
+                                          padding: EdgeInsets.all(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  180),
+                                          child: Text(
+                                            snapshots.data!
+                                                .docs[index]["subjectName"]
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  180),
+                                          child: Text(
+                                            snapshots.data!.docs[index]
+                                                ["teacherName"],
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  180),
+                                          child: Text(
+                                            snapshots.data!.docs[index]
+                                                ["classes"],
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  180),
+                                          child: Text(
+                                            snapshots.data!.docs[index]
+                                                ["dayes"],
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        )
+                                      ])
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -233,234 +349,182 @@ class _SubjectsState extends State<Subjects> {
                         height: MediaQuery.of(context).size.height / 80,
                       ),
                       const Text(
-                        "Add New Teacher",
+                        "Add New Subject",
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 80,
-                      ),
-                      Form(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Frist Name *",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 80,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 7,
-                                    height:
-                                        MediaQuery.of(context).size.height / 20,
-                                    child: TextFormField(
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      decoration:
-                                          kTtextfieldDecoration.copyWith(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Last Name *",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 80,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 7,
-                                    height:
-                                        MediaQuery.of(context).size.height / 20,
-                                    child: TextFormField(
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      decoration:
-                                          kTtextfieldDecoration.copyWith(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Gender *",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 80,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 7,
-                                    height:
-                                        MediaQuery.of(context).size.height / 20,
-                                    child: TextFormField(
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      decoration:
-                                          kTtextfieldDecoration.copyWith(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "DOB *",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 80,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Blood Group *",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 80,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 7,
-                                    height:
-                                        MediaQuery.of(context).size.height / 20,
-                                    child: TextFormField(
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      decoration:
-                                          kTtextfieldDecoration.copyWith(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Select Religion *",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 80,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 7,
-                                    height:
-                                        MediaQuery.of(context).size.height / 20,
-                                    child: TextFormField(
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      decoration:
-                                          kTtextfieldDecoration.copyWith(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Email *",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 80,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 7,
-                                    height:
-                                        MediaQuery.of(context).size.height / 20,
-                                    child: TextFormField(
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                      decoration:
-                                          kTtextfieldDecoration.copyWith(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 20,
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 20,
-                          ),
-                        ],
-                      )),
-                      SizedBox(
                         height: MediaQuery.of(context).size.height / 30,
                       ),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(""),
-                            radius: 50,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 50,
-                          ),
-                          Column(
+                      Form(
+                          key: formkey,
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "Upload Student Picture",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 15),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Subject Name *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: subjectName,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Teacher *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: teacher,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Classes *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: classes,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Dayes *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: dayes,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                               SizedBox(
-                                height: MediaQuery.of(context).size.height / 50,
+                                height: MediaQuery.of(context).size.height / 20,
                               ),
                             ],
-                          )
-                        ],
-                      ),
+                          )),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 30,
                       ),
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () async {},
+                            onTap: () async {
+                              subjectModel.subjectName = subjectName.text;
+                              subjectModel.teacherName = teacher.text;
+                              subjectModel.classes = classes.text;
+                              subjectModel.dayes = dayes.text;
+                              subjectModel.subjectID = sID;
+                              await firestore
+                                  .collection("Subjects")
+                                  .doc(sID.toString())
+                                  .set(subjectModel.toJson())
+                                  .then((value) => {
+                                        searchController =
+                                            TextEditingController(),
+                                        subjectName = TextEditingController(),
+                                        teacher = TextEditingController(),
+                                        classes = TextEditingController(),
+                                        dayes = TextEditingController(),
+                                        setState(() {}),
+                                        Utilities()
+                                            .toastMessage("Subject Added")
+                                      })
+                                  .onError((error, stackTrace) => {
+                                        Utilities()
+                                            .toastMessage(error.toString()),
+                                      });
+
+                              updateSubjectID();
+                            },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,
                               height: MediaQuery.of(context).size.height / 20,

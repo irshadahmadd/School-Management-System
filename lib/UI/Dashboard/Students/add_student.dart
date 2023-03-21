@@ -75,7 +75,9 @@ class _AddStudentState extends State<AddStudent> {
     await firestore
         .collection("StudentID")
         .doc(id.toString())
-        .set({"lastAssignId": id});
+        .set({"lastAssignId": id}).then((value) => {
+              getLastId(),
+            });
   }
 
   // getting last id

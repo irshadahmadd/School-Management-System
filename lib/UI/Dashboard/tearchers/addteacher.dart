@@ -8,8 +8,6 @@ import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/Core/Models/teacher_model.dart';
 import 'package:school_managment_system/Core/Utilities/utils.dart';
 
-int id = 0;
-
 class AddTeacher extends StatefulWidget {
   const AddTeacher({Key? key}) : super(key: key);
   @override
@@ -22,6 +20,8 @@ class _AddTeacherState extends State<AddTeacher> {
   // final fireStoreRef = FirebaseFirestore.instance.collection('Teacher');
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool loading = false;
+
+  int tID = 0;
 
   String? logourl;
   uploadprofilePic() async {
@@ -68,17 +68,19 @@ class _AddTeacherState extends State<AddTeacher> {
   void teacherIdUpdate() async {
     await firestore
         .collection("TeacherID")
-        .doc(id.toString())
-        .set({"lastAssignId": id});
+        .doc(tID.toString())
+        .set({"lastAssignId": tID}).then((value) => {
+              getLastId(),
+            });
   }
 
   // getting last id
 
   void getLastId() async {
     final result =
-        await firestore.collection("TeacherID").doc(id.toString()).get();
-    id = result['lastAssignId'];
-    id++;
+        await firestore.collection("TeacherID").doc(tID.toString()).get();
+    tID = result['lastAssignId'];
+    tID++;
   }
 
   @override
@@ -832,7 +834,7 @@ class _AddTeacherState extends State<AddTeacher> {
                             teacherModel.tsubject = teacherSubject.text;
                             teacherModel.taddrss = teacherAddress.text;
                             teacherModel.tjoiningDate = teacherJoiningDate.text;
-                            teacherModel.teacherID = id;
+                            teacherModel.teacherID = tID;
 
                             const CircularProgressIndicator(
                               strokeWidth: 7,
@@ -840,7 +842,7 @@ class _AddTeacherState extends State<AddTeacher> {
                             );
                             await firestore
                                 .collection("Teachers")
-                                .doc(id.toString())
+                                .doc(tID.toString())
                                 .set(teacherModel.toJson())
                                 .then((value) {
                               teacherFName = TextEditingController();

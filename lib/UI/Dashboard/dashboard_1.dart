@@ -1029,7 +1029,7 @@ class _DashboardMainState extends State<TestingScreen> {
                           )
                         : const SizedBox(),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 50,
+                      height: MediaQuery.of(context).size.height / 100,
                     ),
                     GestureDetector(
                       onTap: () {
