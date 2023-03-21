@@ -5,7 +5,6 @@ import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/Core/Models/subjects_mode.dart';
 import 'package:school_managment_system/Core/Utilities/utils.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
-import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 
 class Subjects extends StatefulWidget {
   const Subjects({super.key});
