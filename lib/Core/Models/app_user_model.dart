@@ -1,4 +1,4 @@
-class AppUser {
+class AppUserModel {
   String? schoolName;
   String? email;
   String? mobileNo;
@@ -8,7 +8,7 @@ class AppUser {
   String? password;
   String? language;
 
-  AppUser(
+  AppUserModel(
       {this.schoolName,
       this.email,
       this.mobileNo,
@@ -18,7 +18,7 @@ class AppUser {
       this.password,
       this.language});
 
-  AppUser.fromJson(Map<String, dynamic> json) {
+  AppUserModel.fromJson(Map<String, dynamic> json) {
     schoolName = json['SchoolName'];
     email = json['Email'];
     mobileNo = json['MobileNo'];

@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/Core/Utilities/services.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -36,12 +37,12 @@ class _SplashScreenState extends State<SplashScreen> {
                   Shadow(
                     offset: Offset(5.0, 5.0),
                     blurRadius: 0.5,
-                    color: Color.fromARGB(123, 0, 0, 0),
+                    color: Constants.purpleDark,
                   ),
                   Shadow(
                     offset: Offset(5.0, 5.0),
                     blurRadius: 0.5,
-                    color: Color.fromARGB(123, 0, 0, 0),
+                    color: Constants.purpleDark,
                   ),
                 ],
                 color: Color.fromARGB(255, 255, 255, 255),

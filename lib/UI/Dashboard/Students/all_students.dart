@@ -259,7 +259,7 @@ class _AllStudentsState extends State<AllStudents> {
                           height: MediaQuery.of(context).size.height / 40,
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height / 1,
+                          height: MediaQuery.of(context).size.height / 2.3,
                           width: MediaQuery.of(context).size.width / 1,
                           child: StreamBuilder<QuerySnapshot>(
                               stream: firestore,
