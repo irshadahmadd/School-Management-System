@@ -262,182 +262,178 @@ class _AllStudentsState extends State<AllStudents> {
                           height: MediaQuery.of(context).size.height / 2.3,
                           width: MediaQuery.of(context).size.width / 1,
                           child: StreamBuilder<QuerySnapshot>(
-                              stream: firestore,
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<QuerySnapshot> snapshots) {
-                                if (snapshots.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Text("");
-                                }
-                                if (snapshots.hasError) {
-                                  return const Text("Some error occur");
-                                }
-                                return ListView.builder(
-                                    itemCount: snapshots.data!.docs.length,
-                                    itemBuilder: (context, index) {
-                                      return Table(
-                                        defaultVerticalAlignment:
-                                            TableCellVerticalAlignment.middle,
-                                        border: TableBorder.symmetric(
-                                            outside: const BorderSide(
-                                                width: 1, color: Colors.white)),
+                            stream: firestore,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<QuerySnapshot> snapshots) {
+                              if (snapshots.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text("");
+                              }
+                              if (snapshots.hasError) {
+                                return const Text("Some error occur");
+                              }
+                              return ListView.builder(
+                                itemCount: snapshots.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  return Table(
+                                    defaultVerticalAlignment:
+                                        TableCellVerticalAlignment.middle,
+                                    border: TableBorder.symmetric(
+                                        outside: const BorderSide(
+                                            width: 1, color: Colors.white)),
+                                    children: [
+                                      TableRow(
                                         children: [
-                                          TableRow(children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  180,
+                                              top: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  150,
+                                              bottom: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  150,
+                                            ),
+                                            child: Text(
+                                              snapshots.data!
+                                                  .docs[index]["studentID"]
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
                                                 left: MediaQuery.of(context)
                                                         .size
                                                         .width /
-                                                    180,
-                                                top: MediaQuery.of(context)
+                                                    180),
+                                            child: Text(
+                                              snapshots
+                                                  .data!.docs[index]["studentN"]
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
                                                         .size
                                                         .width /
-                                                    150,
-                                                bottom: MediaQuery.of(context)
+                                                    180),
+                                            child: Text(
+                                              snapshots
+                                                  .data!.docs[index]["studentG"]
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
                                                         .size
                                                         .width /
-                                                    150,
-                                              ),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["studentID"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
+                                                    180),
+                                            child: Text(
+                                              snapshots
+                                                  .data!.docs[index]["studentC"]
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["studentN"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    180),
+                                            child: Text(
+                                              snapshots
+                                                  .data!.docs[index]["parentA"]
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["studentG"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    180),
+                                            child: Text(
+                                              snapshots.data!
+                                                  .docs[index]["studentDOB"]
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["studentC"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    180),
+                                            child: Text(
+                                              snapshots
+                                                  .data!.docs[index]["parentP"]
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["parentA"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["studentDOB"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["parentP"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        20),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    provider.changeScreen(2);
-                                                    studentModel.studentN =
-                                                        snapshots
-                                                            .data!
-                                                            .docs[index]
-                                                                ["studentN"]
-                                                            .toString();
-                                                    studentModel.fatherN =
-                                                        snapshots
-                                                            .data!
-                                                            .docs[index]
-                                                                ["fatherN"]
-                                                            .toString();
-                                                    studentModel.studentC =
-                                                        snapshots
-                                                            .data!
-                                                            .docs[index]
-                                                                ["studentC"]
-                                                            .toString();
-                                                    GlobalID = snapshots
-                                                        .data!
-                                                        .docs[index]
-                                                            ["studentID"]
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    20),
+                                            child: InkWell(
+                                              onTap: () {
+                                                provider.changeScreen(2);
+                                                studentModel.studentN =
+                                                    snapshots.data!
+                                                        .docs[index]["studentN"]
                                                         .toString();
-                                                  },
-                                                  child: const Text(
-                                                    "Edit",
-                                                    style: TextStyle(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
-                                                        color: Color.fromARGB(
-                                                            255, 248, 151, 7)),
-                                                  ),
-                                                ))
-                                          ]),
+                                                studentModel.fatherN = snapshots
+                                                    .data!
+                                                    .docs[index]["fatherN"]
+                                                    .toString();
+                                                studentModel.studentC =
+                                                    snapshots.data!
+                                                        .docs[index]["studentC"]
+                                                        .toString();
+                                                GlobalID = snapshots.data!
+                                                    .docs[index]["studentID"]
+                                                    .toString();
+                                              },
+                                              child: const Text(
+                                                "Edit",
+                                                style: TextStyle(
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                    color: Color.fromARGB(
+                                                        255, 248, 151, 7)),
+                                              ),
+                                            ),
+                                          ),
                                         ],
-                                      );
-                                    });
-                              }),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),

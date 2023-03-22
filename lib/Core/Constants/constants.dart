@@ -18,10 +18,4 @@ const kTtextfieldDecoration = InputDecoration(
     borderSide: BorderSide(width: 2, color: Colors.white),
   ),
   errorMaxLines: 1,
-  errorBorder: OutlineInputBorder(
-    borderSide: BorderSide(width: 2, color: Colors.red),
-  ),
-  focusedErrorBorder: OutlineInputBorder(
-    borderSide: BorderSide(width: 2, color: Colors.red),
-  ),
 );

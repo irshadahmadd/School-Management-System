@@ -12,8 +12,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  GlobalKey formkey = GlobalKey<FormState>();
-  TextEditingController email = TextEditingController();
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  TextEditingController username = TextEditingController();
   TextEditingController passward = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -38,32 +38,40 @@ class _LoginScreenState extends State<LoginScreen> {
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.5),
               borderRadius: BorderRadius.circular(30),
-              border: Border.all(
-                  width: 10, color: Colors.orangeAccent.withOpacity(0.3)),
             ),
 
             // ignore: prefer_const_literals_to_create_immutables
-            child: Column(children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 50,
-              ),
-              const Text(
-                "Login",
-                style: TextStyle(color: Colors.white, fontSize: 30),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
-              ),
-              Form(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 50,
+                ),
+                const Text(
+                  "Login",
+                  style: TextStyle(color: Colors.white, fontSize: 30),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 20,
+                ),
+                Form(
                   key: formkey,
                   child: Column(
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 5,
-                        height: MediaQuery.of(context).size.height / 17,
+                      Container(
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 5,
+                            maxHeight: MediaQuery.of(context).size.height / 5),
+                        // width: MediaQuery.of(context).size.width / 5,
+                        // height: MediaQuery.of(context).size.height / 17,
                         child: TextFormField(
-                          controller: email,
+                          controller: username,
                           style: const TextStyle(color: Colors.white),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Enter Email';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.transparent,
@@ -91,12 +99,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 15,
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 5,
-                        height: MediaQuery.of(context).size.height / 20,
+                      Container(
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 5,
+                            maxHeight: MediaQuery.of(context).size.width / 20),
+                        // width: MediaQuery.of(context).size.width / 5,
+                        // height: MediaQuery.of(context).size.height / 20,
                         child: TextFormField(
                           controller: passward,
                           style: const TextStyle(color: Colors.white),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Enter Password';
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             hintText: "Passward",
                             hintStyle: const TextStyle(color: Colors.white),
@@ -126,21 +143,33 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          auth
-                              .createUserWithEmailAndPassword(
-                                  email: email.text, password: passward.text)
-                              .then((value) => {
-                                    Utilities().toastMessage('User Loged in'),
-                                  })
-                              .onError((error, stackTrace) => {
-                                    Utilities().toastMessage(error.toString()),
-                                  });
+                          if (formkey.currentState!.validate()) {
+                            await auth
+                                .signInWithEmailAndPassword(
+                                    email: username.text,
+                                    password: passward.text)
+                                .then(
+                                  (value) => {
+                                    Utilities().toastMessage(
+                                      value.user!.email.toString(),
+                                    ),
+                                  },
+                                )
+                                .onError(
+                                  (error, stackTrace) => {
+                                    Utilities().toastMessage(
+                                      error.toString(),
+                                    ),
+                                  },
+                                );
 
-                          // ignore: use_build_context_synchronously
-                          await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const TestingScreen()));
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const TestingScreen()));
+                          } else {}
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -149,12 +178,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           width: MediaQuery.of(context).size.width / 6,
                           height: MediaQuery.of(context).size.height / 15,
-                          child: const Center(child: Text("Sign In")),
+                          child: const Center(
+                            child: Text("Sign In"),
+                          ),
                         ),
-                      )
+                      ),
                     ],
-                  ))
-            ]),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

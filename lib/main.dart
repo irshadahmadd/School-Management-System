@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
-import 'Core/Utilities/splash_screen.dart';
+import 'package:school_managment_system/UI/Dashboard/dashboard_1.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const SplashScreen()),
+          home: const TestingScreen()),
     );
   }
 }
