@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +9,7 @@ import 'package:school_managment_system/Core/Models/students_model.dart';
 import 'package:school_managment_system/Core/Utilities/utils.dart';
 
 int id = 0;
+String? logourl;
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -25,7 +25,6 @@ class _AddStudentState extends State<AddStudent> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool loading = false;
 
-  String? logourl;
   uploadprofilePic() async {
     FilePickerResult? filePickerResult;
     filePickerResult = await FilePicker.platform.pickFiles(
@@ -42,7 +41,7 @@ class _AddStudentState extends State<AddStudent> {
         final snapshot = await uploadTask;
         logourl = await snapshot.ref.getDownloadURL();
         setState(() {});
-        // print("=========================$logourl");
+        print("=========================$logourl");
       } catch (e) {
         // print(e);
       }
@@ -75,9 +74,11 @@ class _AddStudentState extends State<AddStudent> {
     await firestore
         .collection("StudentID")
         .doc(id.toString())
-        .set({"lastAssignId": id}).then((value) => {
-              getLastId(),
-            });
+        .set({"lastAssignId": id}).then(
+      (value) => {
+        getLastId(),
+      },
+    );
   }
 
   // getting last id
@@ -161,20 +162,6 @@ class _AddStudentState extends State<AddStudent> {
             ),
             Row(
               children: [
-                InkWell(
-                  onTap: () async {
-                    await fstore
-                        .collection('students')
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .set({
-                      'akdjf': 'kadjfk',
-                    });
-                  },
-                  child: const Text(
-                    "Home",
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                ),
                 const Icon(
                   Icons.arrow_right_sharp,
                   color: Colors.red,

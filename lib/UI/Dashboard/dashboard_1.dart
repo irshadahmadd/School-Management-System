@@ -56,7 +56,7 @@ class _DashboardMainState extends State<TestingScreen> {
                       width: 30,
                       height: 30,
                       child: Image(
-                        image: AssetImage("assets/parents.png"),
+                        image: AssetImage("assets/dashboard.png"),
                       )),
                   SizedBox(
                     width: 30,
@@ -107,9 +107,9 @@ class _DashboardMainState extends State<TestingScreen> {
                   color: Colors.white,
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width / 150),
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 15,
-                  backgroundImage: AssetImage("assets/irshad.jpg"),
+                  backgroundImage: AssetImage("$logourl"),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width / 150),
               ],

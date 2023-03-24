@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -11,10 +12,25 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
+    String? sName;
+    FirebaseFirestore firestores = FirebaseFirestore.instance;
+    void getSchoolName() async {
+      final schoolname =
+          await firestores.collection("Admin").doc("AdminInformation").get();
+      sName = schoolname['SchoolName'];
+      print("===========================$sName");
+    }
+
+    void initState() {
+      getSchoolName();
+      super.initState();
+    }
+
     final firestore = FirebaseFirestore.instance
         .collection("Admin")
         .doc('AdminInformation')
         .snapshots();
+
     // final DocumentReference ref =
     //     FirebaseFirestore.instance.collection("Admin").doc('AdminInformation');
 
@@ -66,22 +82,54 @@ class _SettingsState extends State<Settings> {
                       height: MediaQuery.of(context).size.height / 80,
                     ),
                     const Text(
-                      "Account Setting",
+                      "Admin Account Setting",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 80,
                     ),
-                    const CircleAvatar(
-                      backgroundImage: NetworkImage(""),
-                      radius: 50,
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width / 60),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage("$logourl"),
+                            radius: 70,
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 80,
+                          ),
+                          StreamBuilder(
+                            stream: firestore,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<DocumentSnapshot> snapshots) {
+                              if (snapshots.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text('Loading');
+                              }
+                              if (snapshots.hasError) {
+                                return const Text("Some error occur");
+                              }
+                              // log(snapshots.data!.docs[0]['Language']);
+                              return Text(
+                                snapshots.data!['Username'].toString(),
+                                style: const TextStyle(
+                                    color: Color.fromARGB(255, 255, 200, 0),
+                                    fontSize: 20),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 80,
+                      height: MediaQuery.of(context).size.height / 40,
                     ),
                     Row(
                       children: [
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
                               "School Name *",
@@ -89,7 +137,7 @@ class _SettingsState extends State<Settings> {
                                   TextStyle(color: Colors.white, fontSize: 15),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 25,
                             ),
                             const Text(
                               "Email *",
@@ -97,7 +145,7 @@ class _SettingsState extends State<Settings> {
                                   TextStyle(color: Colors.white, fontSize: 15),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 25,
                             ),
                             const Text(
                               "Mobile *",
@@ -105,12 +153,15 @@ class _SettingsState extends State<Settings> {
                                   TextStyle(color: Colors.white, fontSize: 15),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 25,
                             ),
                             const Text(
                               "City *",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 25,
                             ),
                             const Text(
                               "Address *",
@@ -118,12 +169,15 @@ class _SettingsState extends State<Settings> {
                                   TextStyle(color: Colors.white, fontSize: 15),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 25,
                             ),
                             const Text(
                               "Username*",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 25,
                             ),
                             const Text(
                               "Password *",
@@ -131,7 +185,7 @@ class _SettingsState extends State<Settings> {
                                   TextStyle(color: Colors.white, fontSize: 15),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 25,
                             ),
                             const Text(
                               "Language *",
@@ -144,6 +198,7 @@ class _SettingsState extends State<Settings> {
                           width: MediaQuery.of(context).size.width / 20,
                         ),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               padding: EdgeInsets.only(
@@ -153,29 +208,33 @@ class _SettingsState extends State<Settings> {
                               width: MediaQuery.of(context).size.width / 3,
                               height: MediaQuery.of(context).size.height / 20,
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 2, color: Colors.white)),
-                              child: StreamBuilder(
-                                stream: firestore,
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<DocumentSnapshot> snapshots) {
-                                  if (snapshots.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Text('Loading');
-                                  }
-                                  if (snapshots.hasError) {
-                                    return const Text("Some error occur");
-                                  }
-                                  // log(snapshots.data!.docs[0]['Language']);
-                                  return Text(
-                                    snapshots.data!['Addres'].toString(),
-                                    style: const TextStyle(color: Colors.white),
-                                  );
-                                },
+                                border:
+                                    Border.all(width: 2, color: Colors.white),
                               ),
+
+                              // child: StreamBuilder(
+                              //   stream: firestore,
+                              //   builder: (BuildContext context,
+                              //       AsyncSnapshot<DocumentSnapshot> snapshots) {
+                              //     if (snapshots.connectionState ==
+                              //         ConnectionState.waiting) {
+                              //       return const Text('Loading');
+                              //     }
+                              //     if (snapshots.hasError) {
+                              //       return const Text("Some error occur");
+                              //     }
+                              //     // log(snapshots.data!.docs[0]['Language']);
+                              //     return Text(
+                              //       snapshots.data!['Addres'].toString(),
+                              //       style: const TextStyle(color: Colors.white),
+                              //     );
+                              //   },
+                              // ),
+
+                              child: Text("$sName"),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 50,
                             ),
                             Container(
                               padding: EdgeInsets.only(
@@ -207,7 +266,7 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 50,
                             ),
                             Container(
                               padding: EdgeInsets.only(
@@ -239,7 +298,7 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 50,
                             ),
                             Container(
                               padding: EdgeInsets.only(
@@ -271,7 +330,7 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 50,
                             ),
                             Container(
                               padding: EdgeInsets.only(
@@ -303,7 +362,7 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 50,
                             ),
                             Container(
                               padding: EdgeInsets.only(
@@ -335,7 +394,7 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 50,
                             ),
                             Container(
                               padding: EdgeInsets.only(
@@ -367,7 +426,7 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width / 20,
+                              height: MediaQuery.of(context).size.height / 50,
                             ),
                             Container(
                               padding: EdgeInsets.only(
