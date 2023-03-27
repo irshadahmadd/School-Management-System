@@ -40,7 +40,7 @@ class _AddStudentState extends State<AddStudent> {
         final snapshot = await uploadTask;
         studentPhotourl = await snapshot.ref.getDownloadURL();
         setState(() {});
-        print("=========================$studentPhotourl");
+        // print("=========================$studentPhotourl");
       } catch (e) {
         // print(e);
       }
@@ -160,13 +160,13 @@ class _AddStudentState extends State<AddStudent> {
               height: MediaQuery.of(context).size.height / 80,
             ),
             Row(
-              children: [
-                const Icon(
+              children: const [
+                Icon(
                   Icons.arrow_right_sharp,
                   color: Colors.red,
                   size: 20,
                 ),
-                const Text(
+                Text(
                   "Students admit form data",
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
