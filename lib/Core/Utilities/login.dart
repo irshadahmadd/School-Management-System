@@ -13,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
-  TextEditingController username = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController passward = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         // width: MediaQuery.of(context).size.width / 5,
                         // height: MediaQuery.of(context).size.height / 17,
                         child: TextFormField(
-                          controller: username,
+                          controller: email,
                           style: const TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -146,13 +146,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (formkey.currentState!.validate()) {
                             await auth
                                 .signInWithEmailAndPassword(
-                                    email: username.text,
-                                    password: passward.text)
+                                    email: email.text.trim(),
+                                    password: passward.text.trim())
                                 .then(
                                   (value) => {
                                     Utilities().toastMessage(
                                       value.user!.email.toString(),
                                     ),
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const TestingScreen()))
                                   },
                                 )
                                 .onError(
@@ -164,11 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
 
                             // ignore: use_build_context_synchronously
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const TestingScreen()));
+
                           } else {}
                         },
                         child: Container(

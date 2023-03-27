@@ -9,7 +9,6 @@ import 'package:school_managment_system/Core/Models/students_model.dart';
 import 'package:school_managment_system/Core/Utilities/utils.dart';
 
 int id = 0;
-String? logourl;
 
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
@@ -24,8 +23,9 @@ class _AddStudentState extends State<AddStudent> {
   final fireStoreRef = FirebaseFirestore.instance.collection('Student');
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   bool loading = false;
+  String? studentPhotourl;
 
-  uploadprofilePic() async {
+  uploadStudentPic() async {
     FilePickerResult? filePickerResult;
     filePickerResult = await FilePicker.platform.pickFiles(
         type: FileType.custom, allowedExtensions: ["jpg", "png", "svg"]);
@@ -35,13 +35,12 @@ class _AddStudentState extends State<AddStudent> {
         var name = filePickerResult.files.single.name;
         // print('image uploaded');
         // print('image uploaded');
-        final refrence =
-            FirebaseStorage.instance.ref().child("profiePics/$name");
+        final refrence = FirebaseStorage.instance.ref().child("Student/$name");
         final uploadTask = refrence.putData(bts!);
         final snapshot = await uploadTask;
-        logourl = await snapshot.ref.getDownloadURL();
+        studentPhotourl = await snapshot.ref.getDownloadURL();
         setState(() {});
-        print("=========================$logourl");
+        print("=========================$studentPhotourl");
       } catch (e) {
         // print(e);
       }
@@ -986,7 +985,7 @@ class _AddStudentState extends State<AddStudent> {
                     Row(
                       children: [
                         CircleAvatar(
-                          backgroundImage: NetworkImage("$logourl"),
+                          backgroundImage: NetworkImage("$studentPhotourl"),
                           radius: 50,
                         ),
                         SizedBox(
@@ -1008,7 +1007,7 @@ class _AddStudentState extends State<AddStudent> {
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      uploadprofilePic();
+                                      uploadStudentPic();
                                       // print(
                                       //     "=====================================>>>>>>>>>>>>>>>>>>>$imageUrl");
                                     });

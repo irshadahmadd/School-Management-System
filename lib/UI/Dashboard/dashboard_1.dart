@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
@@ -30,6 +32,29 @@ class _DashboardMainState extends State<TestingScreen> {
   int index = 0;
   int teachersIndex = 0;
   int accountsIndex = 0;
+  String? adminPhotourl;
+  uploadAdminPic() async {
+    FilePickerResult? filePickerResult;
+    filePickerResult = await FilePicker.platform.pickFiles(
+        type: FileType.custom, allowedExtensions: ["jpg", "png", "svg"]);
+    if (filePickerResult != null) {
+      try {
+        final bts = filePickerResult.files.single.bytes;
+        var name = filePickerResult.files.single.name;
+        // print('image uploaded');
+        // print('image uploaded');
+        final refrence = FirebaseStorage.instance.ref().child("Admin/$name");
+        final uploadTask = refrence.putData(bts!);
+        final snapshot = await uploadTask;
+        adminPhotourl = await snapshot.ref.getDownloadURL();
+        setState(() {});
+        print("=========================$adminPhotourl");
+      } catch (e) {
+        // print(e);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // final provider = Provider.of<StudentProvider>(context, listen: false);
@@ -109,7 +134,7 @@ class _DashboardMainState extends State<TestingScreen> {
                 SizedBox(width: MediaQuery.of(context).size.width / 150),
                 CircleAvatar(
                   radius: 15,
-                  backgroundImage: AssetImage("$logourl"),
+                  backgroundImage: AssetImage("$adminPhotourl"),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width / 150),
               ],

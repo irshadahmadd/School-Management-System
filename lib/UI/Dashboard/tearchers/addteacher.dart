@@ -23,8 +23,8 @@ class _AddTeacherState extends State<AddTeacher> {
 
   int tID = 0;
 
-  String? logourl;
-  uploadprofilePic() async {
+  String? teacherPicUrl;
+  uploadTeacherPic() async {
     FilePickerResult? filePickerResult;
     filePickerResult = await FilePicker.platform.pickFiles(
         type: FileType.custom, allowedExtensions: ["jpg", "png", "svg"]);
@@ -34,11 +34,10 @@ class _AddTeacherState extends State<AddTeacher> {
         var name = filePickerResult.files.single.name;
         // print('image uploaded');
         // print('image uploaded');
-        final refrence =
-            FirebaseStorage.instance.ref().child("profiePics/$name");
+        final refrence = FirebaseStorage.instance.ref().child("Teacher/$name");
         final uploadTask = refrence.putData(bts!);
         final snapshot = await uploadTask;
-        logourl = await snapshot.ref.getDownloadURL();
+        teacherPicUrl = await snapshot.ref.getDownloadURL();
         setState(() {});
         // print("=========================$logourl");
       } catch (e) {
@@ -106,22 +105,22 @@ class _AddTeacherState extends State<AddTeacher> {
     'Jew',
     'Other',
   ];
-  String? imageUrl;
-  // Reference ref = FirebaseStorage.instance.ref().child("profilepic");
-  Future pickStudentImage() async {
-    // ignore: invalid_use_of_visible_for_testing_member
-    final image =
-        // ignore: invalid_use_of_visible_for_testing_member
-        await ImagePicker.platform.getImage(source: ImageSource.gallery);
-    // ignore: unused_local_variable
-    var file = File(image!.path);
+  // String? imageUrl;
+  // // Reference ref = FirebaseStorage.instance.ref().child("profilepic");
+  // Future pickStudentImage() async {
+  //   // ignore: invalid_use_of_visible_for_testing_member
+  //   final image =
+  //       // ignore: invalid_use_of_visible_for_testing_member
+  //       await ImagePicker.platform.getImage(source: ImageSource.gallery);
+  //   // ignore: unused_local_variable
+  //   var file = File(image!.path);
 
-    // print(image.toString());
+  //   // print(image.toString());
 
-    // else {
-    //   return "Image not pickrd";
-    // }
-  }
+  //   // else {
+  //   //   return "Image not pickrd";
+  //   // }
+  // }
 
   File? file;
   final fstore = FirebaseFirestore.instance;
@@ -756,7 +755,7 @@ class _AddTeacherState extends State<AddTeacher> {
                     Row(
                       children: [
                         CircleAvatar(
-                          backgroundImage: NetworkImage("$logourl"),
+                          backgroundImage: NetworkImage("$teacherPicUrl"),
                           radius: 50,
                         ),
                         SizedBox(
@@ -778,7 +777,7 @@ class _AddTeacherState extends State<AddTeacher> {
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      uploadprofilePic();
+                                      uploadTeacherPic();
                                       // print(
                                       //     "=====================================>>>>>>>>>>>>>>>>>>>$imageUrl");
                                     });

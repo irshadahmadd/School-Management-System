@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 
 class Settings extends StatefulWidget {
@@ -12,18 +15,28 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    String? sName;
-    FirebaseFirestore firestores = FirebaseFirestore.instance;
-    void getSchoolName() async {
-      final schoolname =
-          await firestores.collection("Admin").doc("AdminInformation").get();
-      sName = schoolname['SchoolName'];
-      print("===========================$sName");
-    }
+    String? adminPicUrl;
 
-    void initState() {
-      getSchoolName();
-      super.initState();
+    uploadAdminPic() async {
+      FilePickerResult? filePickerResult;
+      filePickerResult = await FilePicker.platform.pickFiles(
+          type: FileType.custom, allowedExtensions: ["jpg", "png", "svg"]);
+      if (filePickerResult != null) {
+        try {
+          final bts = filePickerResult.files.single.bytes;
+          var name = filePickerResult.files.single.name;
+          // print('image uploaded');
+          // print('image uploaded');
+          final refrence = FirebaseStorage.instance.ref().child("Admin/$name");
+          final uploadTask = refrence.putData(bts!);
+          final snapshot = await uploadTask;
+          adminPicUrl = await snapshot.ref.getDownloadURL();
+          setState(() {});
+          print("=========================$adminPicUrl");
+        } catch (e) {
+          // print(e);
+        }
+      }
     }
 
     final firestore = FirebaseFirestore.instance
@@ -93,32 +106,106 @@ class _SettingsState extends State<Settings> {
                           left: MediaQuery.of(context).size.width / 60),
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage("$logourl"),
-                            radius: 70,
+                          Row(
+                            children: [
+                              Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage("$adminPicUrl"),
+                                    radius: 50,
+                                  ),
+                                  StreamBuilder(
+                                    stream: firestore,
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<DocumentSnapshot>
+                                            snapshots) {
+                                      if (snapshots.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Text('Loading');
+                                      }
+                                      if (snapshots.hasError) {
+                                        return const Text("Some error occur");
+                                      }
+                                      // log(snapshots.data!.docs[0]['Language']);
+                                      return Text(
+                                        snapshots.data!['Username'].toString(),
+                                        style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 200, 0),
+                                            fontSize: 20),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 50,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Upload Admin Picture",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15),
+                                  ),
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height / 50,
+                                  ),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            uploadAdminPic();
+                                            print(
+                                                "text=====================================>>>>>>>>>>>>>>>>>>>$adminPicUrl");
+                                          });
+                                        },
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              13,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              20,
+                                          decoration: BoxDecoration(
+                                              color: Constants.purpleLight,
+                                              border: Border.all(
+                                                  width: 2,
+                                                  color: Colors.white)),
+                                          child: const Center(
+                                            child: Text(
+                                              "Choose file",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                100,
+                                      ),
+                                      const Text(
+                                        "No file chosen",
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height / 80,
-                          ),
-                          StreamBuilder(
-                            stream: firestore,
-                            builder: (BuildContext context,
-                                AsyncSnapshot<DocumentSnapshot> snapshots) {
-                              if (snapshots.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Text('Loading');
-                              }
-                              if (snapshots.hasError) {
-                                return const Text("Some error occur");
-                              }
-                              // log(snapshots.data!.docs[0]['Language']);
-                              return Text(
-                                snapshots.data!['Username'].toString(),
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 255, 200, 0),
-                                    fontSize: 20),
-                              );
-                            },
                           ),
                         ],
                       ),
@@ -211,27 +298,24 @@ class _SettingsState extends State<Settings> {
                                 border:
                                     Border.all(width: 2, color: Colors.white),
                               ),
-
-                              // child: StreamBuilder(
-                              //   stream: firestore,
-                              //   builder: (BuildContext context,
-                              //       AsyncSnapshot<DocumentSnapshot> snapshots) {
-                              //     if (snapshots.connectionState ==
-                              //         ConnectionState.waiting) {
-                              //       return const Text('Loading');
-                              //     }
-                              //     if (snapshots.hasError) {
-                              //       return const Text("Some error occur");
-                              //     }
-                              //     // log(snapshots.data!.docs[0]['Language']);
-                              //     return Text(
-                              //       snapshots.data!['Addres'].toString(),
-                              //       style: const TextStyle(color: Colors.white),
-                              //     );
-                              //   },
-                              // ),
-
-                              child: Text("$sName"),
+                              child: StreamBuilder(
+                                stream: firestore,
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<DocumentSnapshot> snapshots) {
+                                  if (snapshots.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Text('Loading');
+                                  }
+                                  if (snapshots.hasError) {
+                                    return const Text("Some error occur");
+                                  }
+                                  // log(snapshots.data!.docs[0]['Language']);
+                                  return Text(
+                                    snapshots.data!['Addres'].toString(),
+                                    style: const TextStyle(color: Colors.white),
+                                  );
+                                },
+                              ),
                             ),
                             SizedBox(
                               height: MediaQuery.of(context).size.height / 50,

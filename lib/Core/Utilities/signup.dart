@@ -355,8 +355,7 @@ class _SignUpState extends State<SignUp> {
                             .then(
                               (value) => {
                                 auth.createUserWithEmailAndPassword(
-                                    email: username.text,
-                                    password: passward.text),
+                                    email: email.text, password: passward.text),
                                 Utilities().toastMessage(
                                     "Your Admin Account has been created"),
                                 Navigator.push(
