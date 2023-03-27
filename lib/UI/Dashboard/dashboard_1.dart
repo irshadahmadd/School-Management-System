@@ -10,7 +10,6 @@ import 'package:school_managment_system/UI/Dashboard/parents/parents.dart';
 import 'package:school_managment_system/UI/Dashboard/table_calender.dart';
 import 'package:school_managment_system/UI/Dashboard/tearchers/addteacher.dart';
 import 'package:school_managment_system/UI/Dashboard/tearchers/allteachers.dart';
-
 import '../../Core/provider/student_provider.dart';
 import 'Students/student_promotion.dart';
 
@@ -26,8 +25,8 @@ class TestingScreen extends StatefulWidget {
 class _DashboardMainState extends State<TestingScreen> {
   TextEditingController searchController = TextEditingController();
   int index = 0;
-  int teachersIndex = 0;
   int accountsIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     // final provider = Provider.of<StudentProvider>(context, listen: false);
@@ -548,18 +547,14 @@ class _DashboardMainState extends State<TestingScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    setState(
-                                      () {
-                                        teachersIndex = 0;
-                                      },
-                                    );
+                                    setState(provider.changeTeacherScreen(0));
                                   },
                                   child: Container(
                                     width:
                                         MediaQuery.of(context).size.width / 7,
                                     height:
                                         MediaQuery.of(context).size.height / 20,
-                                    decoration: teachersIndex == 0
+                                    decoration: provider.teachersIndex == 0
                                         ? BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -618,18 +613,14 @@ class _DashboardMainState extends State<TestingScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    setState(
-                                      () {
-                                        teachersIndex = 1;
-                                      },
-                                    );
+                                    provider.changeTeacherScreen(1);
                                   },
                                   child: Container(
                                     width:
                                         MediaQuery.of(context).size.width / 7,
                                     height:
                                         MediaQuery.of(context).size.height / 20,
-                                    decoration: teachersIndex == 1
+                                    decoration: provider.teachersIndex == 1
                                         ? BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -748,11 +739,9 @@ class _DashboardMainState extends State<TestingScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    setState(
-                                      () {
-                                        accountsIndex = 0;
-                                      },
-                                    );
+                                    setState(() {
+                                      accountsIndex = 0;
+                                    });
                                   },
                                   child: Container(
                                     width:
@@ -818,11 +807,9 @@ class _DashboardMainState extends State<TestingScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    setState(
-                                      () {
-                                        accountsIndex = 1;
-                                      },
-                                    );
+                                    setState(() {
+                                      accountsIndex = 1;
+                                    });
                                   },
                                   child: Container(
                                     width:
@@ -888,11 +875,9 @@ class _DashboardMainState extends State<TestingScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    setState(
-                                      () {
-                                        accountsIndex = 2;
-                                      },
-                                    );
+                                    setState(() {
+                                      accountsIndex = 2;
+                                    });
                                   },
                                   child: Container(
                                     width:
@@ -958,11 +943,9 @@ class _DashboardMainState extends State<TestingScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    setState(
-                                      () {
-                                        accountsIndex = 3;
-                                      },
-                                    );
+                                    setState(() {
+                                      accountsIndex = 3;
+                                    });
                                   },
                                   child: Container(
                                     width:
@@ -1272,9 +1255,9 @@ class _DashboardMainState extends State<TestingScreen> {
                                         borderRadius: BorderRadius.vertical(
                                             top: Radius.circular(15)),
                                       ),
-                                      child: teachersIndex == 0
+                                      child: provider.teachersIndex == 0
                                           ? AllTeachers()
-                                          : teachersIndex == 1
+                                          : provider.teachersIndex == 1
                                               ? AddTeacher()
                                               : SizedBox(),
                                     ),

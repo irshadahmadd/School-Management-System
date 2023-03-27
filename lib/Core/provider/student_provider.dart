@@ -11,6 +11,12 @@ class StudentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  int teachersIndex = 0;
+  changeTeacherScreen(int tindex) {
+    studentsIndex = tindex;
+    notifyListeners();
+  }
+
   ///
 
   uploadAdminPIc() async {
@@ -34,5 +40,16 @@ class StudentProvider extends ChangeNotifier {
         // print(e);
       }
     }
+  }
+
+  int accountsIndex = 0;
+  changeAccountScrean(int aintex) {
+    accountsIndex = aintex;
+  }
+
+  int index = 0;
+  sideNavigator(int value) {
+    index = value;
+    notifyListeners();
   }
 }
