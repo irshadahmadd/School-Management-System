@@ -12,12 +12,18 @@ class AddExpanses extends StatefulWidget {
 }
 
 class _AddExpansesState extends State<AddExpanses> {
-  TextEditingController sbyNameContoller = TextEditingController();
-  TextEditingController sbyClassContoller = TextEditingController();
   TextEditingController searchController = TextEditingController();
   final firestore =
       FirebaseFirestore.instance.collection("Student").snapshots();
-
+  TextEditingController teacherFName = TextEditingController();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  TextEditingController ename = TextEditingController();
+  TextEditingController etype = TextEditingController();
+  TextEditingController estatus = TextEditingController();
+  TextEditingController eamount = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController duedate = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // final provider = Provider.of<StudentProvider>(context, listen: true);
@@ -27,6 +33,7 @@ class _AddExpansesState extends State<AddExpanses> {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text(
                 "Add Expenses",
@@ -69,328 +76,373 @@ class _AddExpansesState extends State<AddExpanses> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 80,
+                      ),
                       const Text(
-                        "All Parents Data",
-                        style: TextStyle(color: Colors.white),
+                        "Add New Expanses",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 40,
+                        height: MediaQuery.of(context).size.height / 80,
                       ),
+                      Form(
+                          key: _formkey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Name *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: ename,
+                                          onFieldSubmitted: (value) {
+                                            ename.clear();
+                                          },
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                          validator: (value) {
+                                            if (ename.text.isEmpty) {
+                                              return 'Enter  your name';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Expense Type *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          controller: etype,
+                                          onFieldSubmitted: (value) {
+                                            etype.clear();
+                                          },
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                          validator: (value) {
+                                            if (etype.text.isEmpty) {
+                                              return "Enter Tyepe";
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Status *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: etype,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                          validator: (value) {
+                                            if (etype.text.isEmpty) {
+                                              return "Select Status";
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Amount *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: eamount,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                          validator: (value) {
+                                            if (eamount.text.isEmpty) {
+                                              return "Enter amount";
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 20,
+                              ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 30,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Phone *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          controller: phone,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                          validator: (value) {
+                                            if (phone.text.isEmpty) {
+                                              return 'Enter Phone';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Email *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          controller: email,
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                          validator: (value) {
+                                            if (email.text.isEmpty) {
+                                              return "Enter Email";
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Due Date *",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                        child: TextFormField(
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          controller: duedate,
+                                          decoration:
+                                              kTtextfieldDecoration.copyWith(),
+                                          validator: (value) {
+                                            if (duedate.text.isEmpty) {
+                                              return "Select ";
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        " ",
+                                        style: TextStyle(
+                                            color: Colors.transparent),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                80,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                7,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                20,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 40,
+                        height: MediaQuery.of(context).size.height / 17,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width / 5,
-                            height: MediaQuery.of(context).size.height / 15,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Constants.purpleLight),
-                            child: TextFormField(
-                              style: const TextStyle(color: Colors.white),
-                              controller: sbyNameContoller,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.all(15),
-                                hintText: "Search by Name",
-                                hintStyle: TextStyle(color: Colors.white),
-                                // filled: true,
-                                // fillColor: Colors.white,
-                                errorBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none,
-                                focusedErrorBorder: InputBorder.none,
-                                border: InputBorder.none,
+                          GestureDetector(
+                            onTap: () async {
+                              const CircularProgressIndicator(
+                                strokeWidth: 7,
+                                color: Colors.amber,
+                              );
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 16,
+                              height: MediaQuery.of(context).size.height / 20,
+                              decoration: BoxDecoration(
+                                color: Constants.purpleLight,
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Save",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 5,
-                            height: MediaQuery.of(context).size.height / 15,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Constants.purpleLight),
-                            child: TextFormField(
-                              style: const TextStyle(color: Colors.white),
-                              controller: sbyClassContoller,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.all(15),
-                                hintText: "Search by Class",
-                                hintStyle: TextStyle(color: Colors.white),
-                                // filled: true,
-                                // fillColor: Colors.white,
-                                errorBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none,
-                                focusedErrorBorder: InputBorder.none,
-                                border: InputBorder.none,
-                              ),
-                            ),
+                          const SizedBox(
+                            width: 20,
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width / 10,
-                            height: MediaQuery.of(context).size.height / 15,
+                            width: MediaQuery.of(context).size.width / 16,
+                            height: MediaQuery.of(context).size.height / 20,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Constants.red),
-                            child: TextFormField(
-                              style: const TextStyle(color: Colors.white),
-                              controller: searchController,
-                              decoration: const InputDecoration(
-                                contentPadding: EdgeInsets.all(15),
-                                hintText: "Search",
-                                hintStyle: TextStyle(color: Colors.white),
-                                // filled: true,
-                                // fillColor: Colors.white,
-                                errorBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                disabledBorder: InputBorder.none,
-                                focusedErrorBorder: InputBorder.none,
-                                border: InputBorder.none,
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Reset",
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 40,
-                      ),
-                      Table(
-                        defaultVerticalAlignment:
-                            TableCellVerticalAlignment.middle,
-                        border: TableBorder.all(color: Colors.white),
-                        children: [
-                          TableRow(children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width / 180,
-                                top: MediaQuery.of(context).size.width / 150,
-                                bottom: MediaQuery.of(context).size.width / 150,
-                              ),
-                              child: const Text(
-                                "ID",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width / 180),
-                              child: const Text(
-                                "Father",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width / 180),
-                              child: const Text(
-                                "Mother",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width / 180),
-                              child: const Text(
-                                "Occupation",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width / 180),
-                              child: const Text(
-                                "Address",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width / 180),
-                              child: const Text(
-                                "Email",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width / 180),
-                              child: const Text(
-                                "Phone",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ]),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 40,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 1,
-                        width: MediaQuery.of(context).size.width / 1,
-                        child: StreamBuilder<QuerySnapshot>(
-                          stream: firestore,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshots) {
-                            if (snapshots.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Text("");
-                            }
-                            if (snapshots.hasError) {
-                              return const Text("Some error occur");
-                            }
-                            return ListView.builder(
-                              itemCount: snapshots.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                return Table(
-                                  defaultVerticalAlignment:
-                                      TableCellVerticalAlignment.middle,
-                                  border: TableBorder.symmetric(
-                                      outside: const BorderSide(
-                                          width: 1, color: Colors.white)),
-                                  children: [
-                                    TableRow(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                180,
-                                            top: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                150,
-                                            bottom: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                150,
-                                          ),
-                                          child: Text(
-                                            snapshots
-                                                .data!.docs[index]["studentID"]
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  180),
-                                          child: Text(
-                                            snapshots
-                                                .data!.docs[index]["fatherN"]
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  180),
-                                          child: Text(
-                                            snapshots
-                                                .data!.docs[index]["motherN"]
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  180),
-                                          child: Text(
-                                            snapshots
-                                                .data!.docs[index]["parentO"]
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  180),
-                                          child: Text(
-                                            snapshots
-                                                .data!.docs[index]["parentA"]
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  180),
-                                          child: Text(
-                                            snapshots
-                                                .data!.docs[index]["parentE"]
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  180),
-                                          child: Text(
-                                            snapshots
-                                                .data!.docs[index]["parentP"]
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        ),
                       ),
                     ],
                   ),

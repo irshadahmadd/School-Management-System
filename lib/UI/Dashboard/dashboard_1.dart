@@ -806,7 +806,6 @@ class _DashboardMainState extends State<TestingScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    print("arshad jab");
                                     provider.changeAccountScrean(1);
                                   },
                                   child: Container(
@@ -873,7 +872,6 @@ class _DashboardMainState extends State<TestingScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    print("khan nice to ");
                                     provider.changeAccountScrean(2);
                                   },
                                   child: Container(
