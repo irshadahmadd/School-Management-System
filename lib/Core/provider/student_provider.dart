@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +15,7 @@ class StudentProvider extends ChangeNotifier {
 
   int teachersIndex = 0;
   changeTeacherScreen(int tindex) {
-    studentsIndex = tindex;
+    teachersIndex = tindex;
     notifyListeners();
   }
 
@@ -34,7 +36,6 @@ class StudentProvider extends ChangeNotifier {
         final snapshot = await uploadTask;
         adminPicUrl = await snapshot.ref.getDownloadURL();
 
-        print("=============$adminPicUrl");
         notifyListeners();
       } catch (e) {
         // print(e);
@@ -43,8 +44,10 @@ class StudentProvider extends ChangeNotifier {
   }
 
   int accountsIndex = 0;
-  changeAccountScrean(int aintex) {
-    accountsIndex = aintex;
+  changeAccountScrean(int accountIndex2) {
+    log(accountIndex2.toString());
+    accountsIndex = accountIndex2;
+    notifyListeners();
   }
 
   int index = 0;

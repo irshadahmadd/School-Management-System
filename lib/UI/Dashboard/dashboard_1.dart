@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
+import 'package:school_managment_system/UI/Dashboard/Accounts/add_expenses.dart';
+import 'package:school_managment_system/UI/Dashboard/Accounts/expenses.dart';
+import 'package:school_managment_system/UI/Dashboard/Accounts/fee_group.dart';
+import 'package:school_managment_system/UI/Dashboard/Accounts/student_fees.dart';
 import 'package:school_managment_system/UI/Dashboard/Settings/settings.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/all_students.dart';
@@ -13,8 +17,6 @@ import 'package:school_managment_system/UI/Dashboard/tearchers/allteachers.dart'
 import '../../Core/provider/student_provider.dart';
 import 'Students/student_promotion.dart';
 
-// int studentsIndex = 0;
-
 class TestingScreen extends StatefulWidget {
   const TestingScreen({Key? key}) : super(key: key);
 
@@ -25,7 +27,6 @@ class TestingScreen extends StatefulWidget {
 class _DashboardMainState extends State<TestingScreen> {
   TextEditingController searchController = TextEditingController();
   int index = 0;
-  int accountsIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -547,7 +548,7 @@ class _DashboardMainState extends State<TestingScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    setState(provider.changeTeacherScreen(0));
+                                    provider.changeTeacherScreen(0);
                                   },
                                   child: Container(
                                     width:
@@ -739,16 +740,14 @@ class _DashboardMainState extends State<TestingScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      accountsIndex = 0;
-                                    });
+                                    provider.changeAccountScrean(0);
                                   },
                                   child: Container(
                                     width:
                                         MediaQuery.of(context).size.width / 7,
                                     height:
                                         MediaQuery.of(context).size.height / 20,
-                                    decoration: accountsIndex == 0
+                                    decoration: provider.accountsIndex == 0
                                         ? BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -805,18 +804,17 @@ class _DashboardMainState extends State<TestingScreen> {
                                   height:
                                       MediaQuery.of(context).size.height / 100,
                                 ),
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
-                                    setState(() {
-                                      accountsIndex = 1;
-                                    });
+                                    print("arshad jab");
+                                    provider.changeAccountScrean(1);
                                   },
                                   child: Container(
                                     width:
                                         MediaQuery.of(context).size.width / 7,
                                     height:
                                         MediaQuery.of(context).size.height / 20,
-                                    decoration: accountsIndex == 1
+                                    decoration: provider.accountsIndex == 1
                                         ? BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -873,18 +871,17 @@ class _DashboardMainState extends State<TestingScreen> {
                                   height:
                                       MediaQuery.of(context).size.height / 100,
                                 ),
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
-                                    setState(() {
-                                      accountsIndex = 2;
-                                    });
+                                    print("khan nice to ");
+                                    provider.changeAccountScrean(2);
                                   },
                                   child: Container(
                                     width:
                                         MediaQuery.of(context).size.width / 7,
                                     height:
                                         MediaQuery.of(context).size.height / 20,
-                                    decoration: accountsIndex == 2
+                                    decoration: provider.accountsIndex == 2
                                         ? BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -943,16 +940,14 @@ class _DashboardMainState extends State<TestingScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      accountsIndex = 3;
-                                    });
+                                    provider.changeAccountScrean(3);
                                   },
                                   child: Container(
                                     width:
                                         MediaQuery.of(context).size.width / 7,
                                     height:
                                         MediaQuery.of(context).size.height / 20,
-                                    decoration: accountsIndex == 3
+                                    decoration: provider.accountsIndex == 3
                                         ? BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -1122,6 +1117,7 @@ class _DashboardMainState extends State<TestingScreen> {
             ),
             Expanded(
               flex: 3,
+              // Dash Board
               child: index == 0
                   ? Padding(
                       padding: EdgeInsets.only(
@@ -1149,8 +1145,8 @@ class _DashboardMainState extends State<TestingScreen> {
                                     child: Column(
                                       // ignore: prefer_const_literals_to_create_immutables
                                       children: [
-                                        LineChartSample1(),
-                                        TableCollender(),
+                                        const LineChartSample1(),
+                                        const TableCollender(),
                                       ],
                                     ),
                                   ),
@@ -1172,7 +1168,7 @@ class _DashboardMainState extends State<TestingScreen> {
                                     child: Column(
                                       // ignore: prefer_const_literals_to_create_immutables
                                       children: [
-                                        BarChartSample2(),
+                                        const BarChartSample2(),
                                       ],
                                     ),
                                   ),
@@ -1199,7 +1195,7 @@ class _DashboardMainState extends State<TestingScreen> {
                                                   .height /
                                               90,
                                         ),
-                                        PieChartSample2(),
+                                        const PieChartSample2(),
                                       ],
                                     ),
                                   ),
@@ -1210,6 +1206,7 @@ class _DashboardMainState extends State<TestingScreen> {
                         ),
                       ),
                     )
+                  // Students
                   : index == 1
                       ? Padding(
                           padding: EdgeInsets.only(
@@ -1225,17 +1222,20 @@ class _DashboardMainState extends State<TestingScreen> {
                                     top: Radius.circular(15)),
                               ),
                               child: provider.studentsIndex == 0
-                                  ? AllStudents()
+                                  ? const AllStudents()
                                   : provider.studentsIndex == 1
-                                      ? AddStudent()
+                                      ? const AddStudent()
                                       : provider.studentsIndex == 2
-                                          ? StudentPromotion()
-                                          : SizedBox(),
+                                          ? const StudentPromotion()
+                                          : const SizedBox(),
                             ),
                           ),
                         )
+
+                      // Parents
                       : index == 2
-                          ? Parents()
+                          ? const Parents()
+                          //Teacher
                           : index == 3
                               ? Padding(
                                   padding: EdgeInsets.only(
@@ -1256,44 +1256,25 @@ class _DashboardMainState extends State<TestingScreen> {
                                             top: Radius.circular(15)),
                                       ),
                                       child: provider.teachersIndex == 0
-                                          ? AllTeachers()
+                                          ? const AllTeachers()
                                           : provider.teachersIndex == 1
-                                              ? AddTeacher()
-                                              : SizedBox(),
+                                              ? const AddTeacher()
+                                              : const SizedBox(),
                                     ),
                                   ),
                                 )
-                              : index == 5
-                                  ? Padding(
-                                      padding: EdgeInsets.only(
-                                          top: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              80,
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              150),
-                                      child: Center(
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              1,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1,
-                                          decoration: const BoxDecoration(
-                                            color: Constants.purpleLight,
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(15)),
-                                          ),
-                                          child: Subjects(),
-                                        ),
-                                      ),
-                                    )
-                                  : index == 6
+                              : index == 4
+                                  ? provider.accountsIndex == 0
+                                      ? const FeeGroup()
+                                      : provider.accountsIndex == 1
+                                          ? const StudentFees()
+                                          : provider.accountsIndex == 2
+                                              ? const Expenses()
+                                              : provider.accountsIndex == 3
+                                                  ? const AddExpanses()
+                                                  : const SizedBox()
+                                  : index == 5
+                                      // Subjects
                                       ? Padding(
                                           padding: EdgeInsets.only(
                                               top: MediaQuery.of(context)
@@ -1321,12 +1302,47 @@ class _DashboardMainState extends State<TestingScreen> {
                                                         top: Radius.circular(
                                                             15)),
                                               ),
-                                              child: Settings(),
+                                              child: const Subjects(),
                                             ),
                                           ),
                                         )
-                                      : SizedBox(),
-            )
+                                      // Setting
+                                      : index == 6
+                                          ? Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      80,
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      150),
+                                              child: Center(
+                                                child: Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      1,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color:
+                                                        Constants.purpleLight,
+                                                    borderRadius:
+                                                        BorderRadius.vertical(
+                                                      top: Radius.circular(15),
+                                                    ),
+                                                  ),
+                                                  child: const Settings(),
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox(),
+            ),
           ],
         ),
       ),
