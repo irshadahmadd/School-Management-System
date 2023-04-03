@@ -15,8 +15,8 @@ class _ExpensesState extends State<Expenses> {
   TextEditingController sbyNameContoller = TextEditingController();
   TextEditingController sbyClassContoller = TextEditingController();
   TextEditingController searchController = TextEditingController();
-  final firestore =
-      FirebaseFirestore.instance.collection("Student").snapshots();
+  final firestoreEx =
+      FirebaseFirestore.instance.collection("Expanses").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +173,7 @@ class _ExpensesState extends State<Expenses> {
                                       MediaQuery.of(context).size.width / 150,
                                 ),
                                 child: const Text(
-                                  "ID",
+                                  "Name",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -184,7 +184,7 @@ class _ExpensesState extends State<Expenses> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "Father",
+                                  "Expanse Type",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -195,7 +195,7 @@ class _ExpensesState extends State<Expenses> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "Mother",
+                                  "Amount",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -206,7 +206,7 @@ class _ExpensesState extends State<Expenses> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "Occupation",
+                                  "Status",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -217,7 +217,7 @@ class _ExpensesState extends State<Expenses> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "Address",
+                                  "Parent Email",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -228,7 +228,7 @@ class _ExpensesState extends State<Expenses> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "Email",
+                                  "Parent Phone",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -239,7 +239,7 @@ class _ExpensesState extends State<Expenses> {
                                     left: MediaQuery.of(context).size.width /
                                         180),
                                 child: const Text(
-                                  "Phone",
+                                  "Due Date",
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold),
@@ -255,7 +255,7 @@ class _ExpensesState extends State<Expenses> {
                           height: MediaQuery.of(context).size.height / 1,
                           width: MediaQuery.of(context).size.width / 1,
                           child: StreamBuilder<QuerySnapshot>(
-                              stream: firestore,
+                              stream: firestoreEx,
                               builder: (BuildContext context,
                                   AsyncSnapshot<QuerySnapshot> snapshots) {
                                 if (snapshots.connectionState ==
@@ -271,9 +271,8 @@ class _ExpensesState extends State<Expenses> {
                                       return Table(
                                         defaultVerticalAlignment:
                                             TableCellVerticalAlignment.middle,
-                                        border: TableBorder.symmetric(
-                                            outside: const BorderSide(
-                                                width: 1, color: Colors.white)),
+                                        border: TableBorder.all(
+                                            color: Colors.white),
                                         children: [
                                           TableRow(children: [
                                             Padding(
@@ -292,8 +291,8 @@ class _ExpensesState extends State<Expenses> {
                                                     150,
                                               ),
                                               child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["studentID"]
+                                                snapshots
+                                                    .data!.docs[index]["stName"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -307,7 +306,67 @@ class _ExpensesState extends State<Expenses> {
                                                       180),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["fatherN"]
+                                                    .docs[index]["expansesType"]
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      180),
+                                              child: Text(
+                                                snapshots
+                                                    .data!
+                                                    .docs[index]
+                                                        ["expansesamount"]
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      180),
+                                              child: Text(
+                                                snapshots
+                                                    .data!
+                                                    .docs[index]
+                                                        ["expanseStatus"]
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      180),
+                                              child: Text(
+                                                snapshots
+                                                    .data!.docs[index]["pEmail"]
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      180),
+                                              child: Text(
+                                                snapshots
+                                                    .data!.docs[index]["pPhone"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),
@@ -321,63 +380,7 @@ class _ExpensesState extends State<Expenses> {
                                                       180),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["motherN"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["parentO"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["parentA"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["parentE"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["parentP"]
+                                                    .docs[index]["dueDate"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),

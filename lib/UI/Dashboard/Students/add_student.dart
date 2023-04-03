@@ -8,8 +8,6 @@ import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/Core/Models/students_model.dart';
 import 'package:school_managment_system/Core/Utilities/utils.dart';
 
-int id = 0;
-
 class AddStudent extends StatefulWidget {
   const AddStudent({Key? key}) : super(key: key);
 
@@ -18,6 +16,8 @@ class AddStudent extends StatefulWidget {
 }
 
 class _AddStudentState extends State<AddStudent> {
+  int id = 0;
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   StudentModel studentModel = StudentModel();
   final fireStoreRef = FirebaseFirestore.instance.collection('Student');

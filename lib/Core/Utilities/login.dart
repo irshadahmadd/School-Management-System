@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 7,
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () async {
                           if (formkey.currentState!.validate()) {
                             await auth

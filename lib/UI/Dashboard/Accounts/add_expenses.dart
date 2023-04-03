@@ -16,9 +16,6 @@ class AddExpanses extends StatefulWidget {
 
 class _AddExpansesState extends State<AddExpanses> {
   TextEditingController searchController = TextEditingController();
-  final firestore =
-      FirebaseFirestore.instance.collection("Expanses").snapshots();
-
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController ename = TextEditingController();
   TextEditingController etype = TextEditingController();
@@ -29,6 +26,28 @@ class _AddExpansesState extends State<AddExpanses> {
   TextEditingController duedate = TextEditingController();
   ExpansesModel expansesModel = ExpansesModel();
   FirebaseFirestore firestores = FirebaseFirestore.instance;
+  int expansesID = 0;
+  void setId() {
+    firestores.collection("lastID").doc(expansesID.toString()).set({
+      "LastId": expansesID,
+    }).then((value) => getLastId());
+  }
+
+  void getLastId() async {
+    final result = await firestores
+        .collection("ExpansesID")
+        .doc(expansesID.toString())
+        .get();
+    expansesID = result['LastId'];
+    expansesID++;
+  }
+
+  @override
+  void initState() {
+    setId();
+    super.initState();
+  }
+
   void addExpanses() {
     expansesModel.stName = ename.text;
     expansesModel.expansesType = etype.text;
@@ -39,16 +58,9 @@ class _AddExpansesState extends State<AddExpanses> {
     expansesModel.dueDate = duedate.text;
     firestores
         .collection("Expanses")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(expansesID.toString())
         .set(expansesModel.toJson())
         .then((value) => {
-              ename = TextEditingController(),
-              etype = TextEditingController(),
-              estatus = TextEditingController(),
-              eamount = TextEditingController(),
-              phone = TextEditingController(),
-              email = TextEditingController(),
-              duedate = TextEditingController(),
               Utilities().toastMessage("Expanses Added"),
             })
         .onError((error, stackTrace) =>
@@ -437,6 +449,13 @@ class _AddExpansesState extends State<AddExpanses> {
                           InkWell(
                             onTap: () async {
                               addExpanses();
+                              ename = TextEditingController();
+                              etype = TextEditingController();
+                              estatus = TextEditingController();
+                              eamount = TextEditingController();
+                              phone = TextEditingController();
+                              email = TextEditingController();
+                              duedate = TextEditingController();
                               const CircularProgressIndicator(
                                 strokeWidth: 7,
                                 color: Colors.amber,

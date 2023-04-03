@@ -337,7 +337,7 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 13,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () async {
                       if (formkey.currentState!.validate()) {
                         appUserModel.schoolName = schoolName.text;
@@ -467,7 +467,7 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 40,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () async {
                       Navigator.push(
                         context,
