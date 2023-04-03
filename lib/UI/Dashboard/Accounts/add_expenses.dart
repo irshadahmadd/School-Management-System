@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
 import 'package:school_managment_system/Core/Models/expanses_model.dart';
+import 'package:school_managment_system/Core/Utilities/utils.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
 
 class AddExpanses extends StatefulWidget {
@@ -39,7 +40,19 @@ class _AddExpansesState extends State<AddExpanses> {
     firestores
         .collection("Expanses")
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set(expansesModel.toJson());
+        .set(expansesModel.toJson())
+        .then((value) => {
+              ename = TextEditingController(),
+              etype = TextEditingController(),
+              estatus = TextEditingController(),
+              eamount = TextEditingController(),
+              phone = TextEditingController(),
+              email = TextEditingController(),
+              duedate = TextEditingController(),
+              Utilities().toastMessage("Expanses Added"),
+            })
+        .onError((error, stackTrace) =>
+            {Utilities().toastMessage(error.toString())});
   }
 
   @override

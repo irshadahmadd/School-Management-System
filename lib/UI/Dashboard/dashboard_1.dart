@@ -5,7 +5,6 @@ import 'package:school_managment_system/UI/Dashboard/Accounts/add_expenses.dart'
 import 'package:school_managment_system/UI/Dashboard/Accounts/expenses.dart';
 import 'package:school_managment_system/UI/Dashboard/Accounts/fee_group.dart';
 import 'package:school_managment_system/UI/Dashboard/Accounts/student_fees.dart';
-import 'package:school_managment_system/UI/Dashboard/Settings/settings.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/add_student.dart';
 import 'package:school_managment_system/UI/Dashboard/Students/all_students.dart';
 import 'package:school_managment_system/UI/Dashboard/Subects/subjects.dart';
@@ -14,6 +13,7 @@ import 'package:school_managment_system/UI/Dashboard/parents/parents.dart';
 import 'package:school_managment_system/UI/Dashboard/table_calender.dart';
 import 'package:school_managment_system/UI/Dashboard/tearchers/addteacher.dart';
 import 'package:school_managment_system/UI/Dashboard/tearchers/allteachers.dart';
+import 'package:school_managment_system/UI/Setings/settings.dart';
 import '../../Core/provider/student_provider.dart';
 import 'Students/student_promotion.dart';
 
