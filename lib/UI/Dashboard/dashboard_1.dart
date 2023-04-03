@@ -125,7 +125,7 @@ class _DashboardMainState extends State<TestingScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 50,
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         setState(() {
                           index = 0;
@@ -178,7 +178,7 @@ class _DashboardMainState extends State<TestingScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 50,
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         setState(() {
                           index = 1;
@@ -238,7 +238,7 @@ class _DashboardMainState extends State<TestingScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     provider.changeScreen(0);
                                   },
@@ -304,7 +304,7 @@ class _DashboardMainState extends State<TestingScreen> {
                                   height:
                                       MediaQuery.of(context).size.height / 100,
                                 ),
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     provider.changeScreen(1);
                                   },
@@ -370,7 +370,7 @@ class _DashboardMainState extends State<TestingScreen> {
                                   height:
                                       MediaQuery.of(context).size.height / 100,
                                 ),
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     provider.changeScreen(2);
                                   },
@@ -436,7 +436,7 @@ class _DashboardMainState extends State<TestingScreen> {
                             ),
                           )
                         : const SizedBox(),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         setState(() {
                           index = 2;
@@ -486,7 +486,7 @@ class _DashboardMainState extends State<TestingScreen> {
                         ),
                       ),
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         setState(() {
                           index = 3;
@@ -546,7 +546,7 @@ class _DashboardMainState extends State<TestingScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     provider.changeTeacherScreen(0);
                                   },
@@ -612,7 +612,7 @@ class _DashboardMainState extends State<TestingScreen> {
                                   height:
                                       MediaQuery.of(context).size.height / 100,
                                 ),
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     provider.changeTeacherScreen(1);
                                   },
@@ -678,7 +678,7 @@ class _DashboardMainState extends State<TestingScreen> {
                             ),
                           )
                         : const SizedBox(),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         setState(() {
                           index = 4;
@@ -738,7 +738,7 @@ class _DashboardMainState extends State<TestingScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     provider.changeAccountScrean(0);
                                   },
@@ -936,7 +936,7 @@ class _DashboardMainState extends State<TestingScreen> {
                                   height:
                                       MediaQuery.of(context).size.height / 100,
                                 ),
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     provider.changeAccountScrean(3);
                                   },
@@ -1005,7 +1005,7 @@ class _DashboardMainState extends State<TestingScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 100,
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         setState(() {
                           index = 5;
@@ -1058,7 +1058,7 @@ class _DashboardMainState extends State<TestingScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 50,
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () {
                         setState(() {
                           index = 6;

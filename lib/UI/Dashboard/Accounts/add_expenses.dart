@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
+import 'package:school_managment_system/Core/Models/expanses_model.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
 
 class AddExpanses extends StatefulWidget {
@@ -14,8 +16,8 @@ class AddExpanses extends StatefulWidget {
 class _AddExpansesState extends State<AddExpanses> {
   TextEditingController searchController = TextEditingController();
   final firestore =
-      FirebaseFirestore.instance.collection("Student").snapshots();
-  TextEditingController teacherFName = TextEditingController();
+      FirebaseFirestore.instance.collection("Expanses").snapshots();
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController ename = TextEditingController();
   TextEditingController etype = TextEditingController();
@@ -24,6 +26,22 @@ class _AddExpansesState extends State<AddExpanses> {
   TextEditingController phone = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController duedate = TextEditingController();
+  ExpansesModel expansesModel = ExpansesModel();
+  FirebaseFirestore firestores = FirebaseFirestore.instance;
+  void addExpanses() {
+    expansesModel.stName = ename.text;
+    expansesModel.expansesType = etype.text;
+    expansesModel.expanseStatus = estatus.text;
+    expansesModel.expansesamount = eamount.text;
+    expansesModel.pPhone = phone.text;
+    expansesModel.pEmail = email.text;
+    expansesModel.dueDate = duedate.text;
+    firestores
+        .collection("Expanses")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set(expansesModel.toJson());
+  }
+
   @override
   Widget build(BuildContext context) {
     // final provider = Provider.of<StudentProvider>(context, listen: true);
@@ -195,7 +213,7 @@ class _AddExpansesState extends State<AddExpanses> {
                                             MediaQuery.of(context).size.height /
                                                 20,
                                         child: TextFormField(
-                                          controller: etype,
+                                          controller: estatus,
                                           style: const TextStyle(
                                               color: Colors.white),
                                           decoration:
@@ -403,8 +421,9 @@ class _AddExpansesState extends State<AddExpanses> {
                       ),
                       Row(
                         children: [
-                          GestureDetector(
+                          InkWell(
                             onTap: () async {
+                              addExpanses();
                               const CircularProgressIndicator(
                                 strokeWidth: 7,
                                 color: Colors.amber,
