@@ -6,6 +6,8 @@ class ExpansesModel {
   String? pPhone;
   String? pEmail;
   String? dueDate;
+  String? gender;
+  int? expansesID;
 
   ExpansesModel(
       {this.stName,
@@ -14,7 +16,9 @@ class ExpansesModel {
       this.expansesamount,
       this.pPhone,
       this.pEmail,
-      this.dueDate});
+      this.dueDate,
+      this.gender,
+      this.expansesID});
 
   ExpansesModel.fromJson(Map<String, dynamic> json) {
     stName = json['stName'];
@@ -24,6 +28,8 @@ class ExpansesModel {
     pPhone = json['pPhone'];
     pEmail = json['pEmail'];
     dueDate = json['dueDate'];
+    gender = json['gender'];
+    expansesID = json['gender'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +41,8 @@ class ExpansesModel {
     data['pPhone'] = pPhone;
     data['pEmail'] = pEmail;
     data['dueDate'] = dueDate;
+    data['gender'] = gender;
+    data['expansesID'] = expansesID;
     return data;
   }
 }

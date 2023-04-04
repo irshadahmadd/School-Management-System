@@ -14,6 +14,7 @@ class AddExpanses extends StatefulWidget {
 }
 
 class _AddExpansesState extends State<AddExpanses> {
+  int expID = 0;
   TextEditingController searchController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController ename = TextEditingController();
@@ -23,6 +24,8 @@ class _AddExpansesState extends State<AddExpanses> {
   TextEditingController phone = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController duedate = TextEditingController();
+  TextEditingController genders = TextEditingController();
+  TextEditingController classs = TextEditingController();
   ExpansesModel expansesModel = ExpansesModel();
   FirebaseFirestore firestores = FirebaseFirestore.instance;
   int expansesID = 0;
@@ -31,21 +34,25 @@ class _AddExpansesState extends State<AddExpanses> {
         .collection("ExpansesID")
         .doc(expansesID.toString())
         .set({"lastExpansesID": expansesID}).then(
-      (value) => {
-        getLastId(),
-      },
+      (value) => {getLastId()},
     );
+    // print('first function $expansesID');
   }
 
   // getting last id
-
   void getLastId() async {
     final result = await firestores
         .collection("ExpansesID")
         .doc(expansesID.toString())
         .get();
     expansesID = result['lastExpansesID'];
-    expansesID++;
+    setState(
+      () {
+        expansesID++;
+      },
+    );
+
+    // print('second function $expansesID');
   }
 
   @override
@@ -70,10 +77,7 @@ class _AddExpansesState extends State<AddExpanses> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 80,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 80,
+                height: MediaQuery.of(context).size.height / 30,
               ),
               Row(
                 children: const [
@@ -87,13 +91,13 @@ class _AddExpansesState extends State<AddExpanses> {
                     color: Colors.red,
                   ),
                   Text(
-                    "Parents",
+                    "Expanses",
                     style: TextStyle(color: Colors.white),
                   )
                 ],
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 80,
+                height: MediaQuery.of(context).size.height / 30,
               ),
               Container(
                 width: MediaQuery.of(context).size.width / 1.3,
@@ -107,14 +111,14 @@ class _AddExpansesState extends State<AddExpanses> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 80,
+                        height: MediaQuery.of(context).size.height / 20,
                       ),
                       const Text(
                         "Add New Expanses",
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 80,
+                        height: MediaQuery.of(context).size.height / 20,
                       ),
                       Form(
                         key: _formkey,
@@ -385,9 +389,8 @@ class _AddExpansesState extends State<AddExpanses> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text(
-                                      " ",
-                                      style:
-                                          TextStyle(color: Colors.transparent),
+                                      "Gender *",
+                                      style: TextStyle(color: Colors.white),
                                     ),
                                     SizedBox(
                                       height:
@@ -400,6 +403,20 @@ class _AddExpansesState extends State<AddExpanses> {
                                       height:
                                           MediaQuery.of(context).size.height /
                                               20,
+                                      child: TextFormField(
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        controller: genders,
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (duedate.text.isEmpty) {
+                                            return "Select grnder";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -409,7 +426,7 @@ class _AddExpansesState extends State<AddExpanses> {
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 17,
+                        height: MediaQuery.of(context).size.height / 15,
                       ),
                       Row(
                         children: [
@@ -422,16 +439,16 @@ class _AddExpansesState extends State<AddExpanses> {
                               expansesModel.pPhone = phone.text;
                               expansesModel.pEmail = email.text;
                               expansesModel.dueDate = duedate.text;
+                              expansesModel.gender = genders.text;
+                              expansesModel.expansesID = expID;
+
                               const CircularProgressIndicator(
                                 strokeWidth: 7,
                                 color: Colors.amber,
                               );
                               await firestores
                                   .collection("Expanses")
-                                  .doc(
-                                    expansesID.toString(),
-                                  )
-                                  .set(
+                                  .add(
                                     expansesModel.toJson(),
                                   )
                                   .then((value) => {
@@ -442,6 +459,7 @@ class _AddExpansesState extends State<AddExpanses> {
                                         phone = TextEditingController(),
                                         email = TextEditingController(),
                                         duedate = TextEditingController(),
+                                        genders = TextEditingController(),
                                         setState(() {}),
                                         Utilities()
                                             .toastMessage("Expanses Added"),
@@ -453,6 +471,10 @@ class _AddExpansesState extends State<AddExpanses> {
                                       ),
                                     },
                                   );
+                              setState(() {
+                                expID++;
+                              });
+
                               expansesIdUpdate();
                             },
                             child: Container(
@@ -488,6 +510,9 @@ class _AddExpansesState extends State<AddExpanses> {
                             ),
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 25,
                       ),
                     ],
                   ),
