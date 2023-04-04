@@ -13,7 +13,7 @@ import 'package:school_managment_system/UI/Dashboard/parents/parents.dart';
 import 'package:school_managment_system/UI/Dashboard/table_calender.dart';
 import 'package:school_managment_system/UI/Dashboard/tearchers/addteacher.dart';
 import 'package:school_managment_system/UI/Dashboard/tearchers/allteachers.dart';
-import 'package:school_managment_system/UI/Setings/settings.dart';
+import 'package:school_managment_system/UI/Dashboard/Setings/settings.dart';
 import '../../Core/provider/student_provider.dart';
 import 'Students/student_promotion.dart';
 
@@ -1217,7 +1217,8 @@ class _DashboardMainState extends State<TestingScreen> {
                               decoration: const BoxDecoration(
                                 color: Constants.purpleLight,
                                 borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(15)),
+                                  top: Radius.circular(15),
+                                ),
                               ),
                               child: provider.studentsIndex == 0
                                   ? const AllStudents()
@@ -1251,7 +1252,8 @@ class _DashboardMainState extends State<TestingScreen> {
                                       decoration: const BoxDecoration(
                                         color: Constants.purpleLight,
                                         borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(15)),
+                                          top: Radius.circular(15),
+                                        ),
                                       ),
                                       child: provider.teachersIndex == 0
                                           ? const AllTeachers()

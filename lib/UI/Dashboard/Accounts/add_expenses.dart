@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
@@ -27,44 +26,32 @@ class _AddExpansesState extends State<AddExpanses> {
   ExpansesModel expansesModel = ExpansesModel();
   FirebaseFirestore firestores = FirebaseFirestore.instance;
   int expansesID = 0;
-  void setId() {
-    firestores.collection("lastID").doc(expansesID.toString()).set({
-      "LastId": expansesID,
-    }).then((value) => getLastId());
+  void expansesIdUpdate() async {
+    await firestores
+        .collection("ExpansesID")
+        .doc(expansesID.toString())
+        .set({"lastExpansesID": expansesID}).then(
+      (value) => {
+        getLastId(),
+      },
+    );
   }
+
+  // getting last id
 
   void getLastId() async {
     final result = await firestores
         .collection("ExpansesID")
         .doc(expansesID.toString())
         .get();
-    expansesID = result['LastId'];
+    expansesID = result['lastExpansesID'];
     expansesID++;
   }
 
   @override
   void initState() {
-    setId();
+    getLastId();
     super.initState();
-  }
-
-  void addExpanses() {
-    expansesModel.stName = ename.text;
-    expansesModel.expansesType = etype.text;
-    expansesModel.expanseStatus = estatus.text;
-    expansesModel.expansesamount = eamount.text;
-    expansesModel.pPhone = phone.text;
-    expansesModel.pEmail = email.text;
-    expansesModel.dueDate = duedate.text;
-    firestores
-        .collection("Expanses")
-        .doc(expansesID.toString())
-        .set(expansesModel.toJson())
-        .then((value) => {
-              Utilities().toastMessage("Expanses Added"),
-            })
-        .onError((error, stackTrace) =>
-            {Utilities().toastMessage(error.toString())});
   }
 
   @override
@@ -130,317 +117,297 @@ class _AddExpansesState extends State<AddExpanses> {
                         height: MediaQuery.of(context).size.height / 80,
                       ),
                       Form(
-                          key: _formkey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Name *",
-                                        style: TextStyle(color: Colors.white),
+                        key: _formkey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Name *",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              80,
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 7,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                      child: TextFormField(
+                                        controller: ename,
+                                        onFieldSubmitted: (value) {
+                                          ename.clear();
+                                        },
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (ename.text.isEmpty) {
+                                            return 'Enter  your name';
+                                          }
+                                          return null;
+                                        },
                                       ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                        child: TextFormField(
-                                          controller: ename,
-                                          onFieldSubmitted: (value) {
-                                            ename.clear();
-                                          },
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          decoration:
-                                              kTtextfieldDecoration.copyWith(),
-                                          validator: (value) {
-                                            if (ename.text.isEmpty) {
-                                              return 'Enter  your name';
-                                            }
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Expense Type *",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              80,
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 7,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                      child: TextFormField(
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        controller: etype,
+                                        onFieldSubmitted: (value) {
+                                          etype.clear();
+                                        },
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (etype.text.isEmpty) {
+                                            return "Enter Tyepe";
+                                          } else {
                                             return null;
-                                          },
-                                        ),
+                                          }
+                                        },
                                       ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Expense Type *",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                        child: TextFormField(
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          controller: etype,
-                                          onFieldSubmitted: (value) {
-                                            etype.clear();
-                                          },
-                                          decoration:
-                                              kTtextfieldDecoration.copyWith(),
-                                          validator: (value) {
-                                            if (etype.text.isEmpty) {
-                                              return "Enter Tyepe";
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Status *",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                        child: TextFormField(
-                                          controller: estatus,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          decoration:
-                                              kTtextfieldDecoration.copyWith(),
-                                          validator: (value) {
-                                            if (etype.text.isEmpty) {
-                                              return "Select Status";
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Amount *",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                        child: TextFormField(
-                                          controller: eamount,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          decoration:
-                                              kTtextfieldDecoration.copyWith(),
-                                          validator: (value) {
-                                            if (eamount.text.isEmpty) {
-                                              return "Enter amount";
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height / 20,
-                              ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height / 30,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Phone *",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                        child: TextFormField(
-                                          controller: phone,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          decoration:
-                                              kTtextfieldDecoration.copyWith(),
-                                          validator: (value) {
-                                            if (phone.text.isEmpty) {
-                                              return 'Enter Phone';
-                                            }
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Status *",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              80,
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 7,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                      child: TextFormField(
+                                        controller: estatus,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (etype.text.isEmpty) {
+                                            return "Select Status";
+                                          } else {
                                             return null;
-                                          },
-                                        ),
+                                          }
+                                        },
                                       ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Email *",
-                                        style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Amount *",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              80,
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 7,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                      child: TextFormField(
+                                        controller: eamount,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (eamount.text.isEmpty) {
+                                            return "Enter amount";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
                                       ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Phone *",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              80,
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 7,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                      child: TextFormField(
+                                        controller: phone,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (phone.text.isEmpty) {
+                                            return 'Enter Phone';
+                                          }
+                                          return null;
+                                        },
                                       ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                        child: TextFormField(
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          controller: email,
-                                          decoration:
-                                              kTtextfieldDecoration.copyWith(),
-                                          validator: (value) {
-                                            if (email.text.isEmpty) {
-                                              return "Enter Email";
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                        ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Email *",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              80,
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 7,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                      child: TextFormField(
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        controller: email,
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (email.text.isEmpty) {
+                                            return "Enter Email";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
                                       ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Due Date *",
-                                        style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Due Date *",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              80,
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 7,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                      child: TextFormField(
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        controller: duedate,
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (duedate.text.isEmpty) {
+                                            return "Select ";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
                                       ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                        child: TextFormField(
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                          controller: duedate,
-                                          decoration:
-                                              kTtextfieldDecoration.copyWith(),
-                                          validator: (value) {
-                                            if (duedate.text.isEmpty) {
-                                              return "Select ";
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        " ",
-                                        style: TextStyle(
-                                            color: Colors.transparent),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                80,
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      " ",
+                                      style:
+                                          TextStyle(color: Colors.transparent),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              80,
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 7,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              20,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 17,
                       ),
@@ -448,18 +415,45 @@ class _AddExpansesState extends State<AddExpanses> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              addExpanses();
-                              ename = TextEditingController();
-                              etype = TextEditingController();
-                              estatus = TextEditingController();
-                              eamount = TextEditingController();
-                              phone = TextEditingController();
-                              email = TextEditingController();
-                              duedate = TextEditingController();
+                              expansesModel.stName = ename.text;
+                              expansesModel.expansesType = etype.text;
+                              expansesModel.expanseStatus = estatus.text;
+                              expansesModel.expansesamount = eamount.text;
+                              expansesModel.pPhone = phone.text;
+                              expansesModel.pEmail = email.text;
+                              expansesModel.dueDate = duedate.text;
                               const CircularProgressIndicator(
                                 strokeWidth: 7,
                                 color: Colors.amber,
                               );
+                              await firestores
+                                  .collection("Expanses")
+                                  .doc(
+                                    expansesID.toString(),
+                                  )
+                                  .set(
+                                    expansesModel.toJson(),
+                                  )
+                                  .then((value) => {
+                                        ename = TextEditingController(),
+                                        etype = TextEditingController(),
+                                        estatus = TextEditingController(),
+                                        eamount = TextEditingController(),
+                                        phone = TextEditingController(),
+                                        email = TextEditingController(),
+                                        duedate = TextEditingController(),
+                                        setState(() {}),
+                                        Utilities()
+                                            .toastMessage("Expanses Added"),
+                                      })
+                                  .onError(
+                                    (error, stackTrace) => {
+                                      Utilities().toastMessage(
+                                        error.toString(),
+                                      ),
+                                    },
+                                  );
+                              expansesIdUpdate();
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,
