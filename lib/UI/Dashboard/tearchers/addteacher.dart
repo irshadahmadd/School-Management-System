@@ -819,7 +819,7 @@ class _AddTeacherState extends State<AddTeacher> {
                     ),
                     Row(
                       children: [
-                        GestureDetector(
+                        InkWell(
                           onTap: () async {
                             teacherModel.tFname = teacherFName.text;
                             teacherModel.tLtName = teacherLName.text;
@@ -840,8 +840,7 @@ class _AddTeacherState extends State<AddTeacher> {
                             );
                             await firestore
                                 .collection("Teachers")
-                                .doc(tID.toString())
-                                .set(teacherModel.toJson())
+                                .add(teacherModel.toJson())
                                 .then((value) {
                               teacherFName = TextEditingController();
                               teacherLName = TextEditingController();

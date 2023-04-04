@@ -1074,8 +1074,7 @@ class _AddStudentState extends State<AddStudent> {
                             );
                             await firestore
                                 .collection("Student")
-                                .doc(id.toString())
-                                .set(studentModel.toJson())
+                                .add(studentModel.toJson())
                                 .then((value) {
                               studentName = TextEditingController();
                               studentGender = TextEditingController();
