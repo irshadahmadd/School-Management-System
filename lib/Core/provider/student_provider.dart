@@ -1,12 +1,15 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:school_managment_system/Core/Models/app_user_model.dart';
 
 class StudentProvider extends ChangeNotifier {
   int studentsIndex = 0;
   String adminPicUrl = '';
+  AppUserModel admin = AppUserModel();
   changeScreen(int indexx) {
     // print(indexx);
     studentsIndex = indexx;

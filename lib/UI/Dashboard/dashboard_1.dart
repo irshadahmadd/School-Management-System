@@ -1191,7 +1191,7 @@ class _DashboardMainState extends State<TestingScreen> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height /
-                                              90,
+                                              60,
                                         ),
                                         const PieChartSample2(),
                                       ],

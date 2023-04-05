@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
+import 'package:school_managment_system/Core/Models/app_user_model.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
 
 class Settings extends StatefulWidget {
@@ -12,14 +13,32 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  FirebaseFirestore firestoreinstance = FirebaseFirestore.instance;
+  AppUserModel admin = AppUserModel();
+  @override
+  void initState() {
+    init();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  init() async {
+    final firestore = await FirebaseFirestore.instance
+        .collection("Admin")
+        .doc('AdminInformation')
+        .get();
+    admin = AppUserModel.fromJson(firestore.data()!);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    // final DocumentReference ref =
+    //     FirebaseFirestore.instance.collection("Admin").doc('AdminInformation');
     final firestore = FirebaseFirestore.instance
         .collection("Admin")
         .doc('AdminInformation')
         .snapshots();
-    // final DocumentReference ref =
-    //     FirebaseFirestore.instance.collection("Admin").doc('AdminInformation');
 
     return Consumer<StudentProvider>(
       builder: (context, provider, child) => Padding(
@@ -85,7 +104,7 @@ class _SettingsState extends State<Settings> {
                               children: [
                                 Column(
                                   children: [
-                                    provider.adminPicUrl.isEmpty
+                                    admin.imageUrl == null
                                         ? const CircleAvatar(
                                             radius: 50,
                                             backgroundColor: Color.fromARGB(
@@ -93,7 +112,7 @@ class _SettingsState extends State<Settings> {
                                           )
                                         : CircleAvatar(
                                             backgroundImage: Image.network(
-                                                    provider.adminPicUrl)
+                                                    admin.imageUrl.toString())
                                                 .image,
                                             radius: 50,
                                           ),
@@ -141,8 +160,18 @@ class _SettingsState extends State<Settings> {
                                     Row(
                                       children: [
                                         GestureDetector(
-                                          onTap: () {
-                                            provider.uploadAdminPIc();
+                                          onTap: () async {
+                                            await provider.uploadAdminPIc();
+                                            final adminURL =
+                                                provider.adminPicUrl;
+                                            firestoreinstance
+                                                .collection('Admin')
+                                                .doc('AdminInformation')
+                                                .update(
+                                                    {'AdminPicURL': adminURL});
+
+                                            print(
+                                                "=============PICTURE  $adminURL");
                                           },
                                           child: Container(
                                             width: MediaQuery.of(context)

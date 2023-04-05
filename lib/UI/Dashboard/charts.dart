@@ -103,20 +103,17 @@ class PieChart2State extends State {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height / 30,
+              height: MediaQuery.of(context).size.height / 33,
             ),
             const Text(
               "Students Proportion",
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height / 20,
+              height: MediaQuery.of(context).size.height / 33,
             ),
             Row(
               children: <Widget>[
-                const SizedBox(
-                  height: 18,
-                ),
                 Expanded(
                   child: AspectRatio(
                     aspectRatio: 1,
@@ -142,7 +139,7 @@ class PieChart2State extends State {
                             show: false,
                           ),
                           sectionsSpace: 0,
-                          centerSpaceRadius: 40,
+                          centerSpaceRadius: 30,
                           sections: showingSections()),
                     ),
                   ),
@@ -178,13 +175,10 @@ class PieChart2State extends State {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  width: 28,
-                ),
               ],
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height / 20,
+              height: MediaQuery.of(context).size.height / 33,
             ),
           ],
         ),

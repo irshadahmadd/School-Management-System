@@ -7,6 +7,7 @@ class AppUserModel {
   String? username;
   String? password;
   String? language;
+  String? imageUrl;
 
   AppUserModel(
       {this.schoolName,
@@ -16,7 +17,8 @@ class AppUserModel {
       this.addres,
       this.username,
       this.password,
-      this.language});
+      this.language,
+      this.imageUrl});
 
   AppUserModel.fromJson(Map<String, dynamic> json) {
     schoolName = json['SchoolName'];
@@ -27,6 +29,7 @@ class AppUserModel {
     username = json['Username'];
     password = json['Password'];
     language = json['Language'];
+    imageUrl = json['imageUrl'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class AppUserModel {
     data['Username'] = username;
     data['Password'] = password;
     data['Language'] = language;
+    data['imageUrl'] = imageUrl;
     return data;
   }
 }
