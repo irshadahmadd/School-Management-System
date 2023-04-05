@@ -100,81 +100,91 @@ class PieChart2State extends State {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Row(
-          children: <Widget>[
-            const SizedBox(
-              height: 18,
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 30,
             ),
-            Expanded(
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: PieChart(
-                  PieChartData(
-                      pieTouchData:
-                          PieTouchData(touchCallback: (pieTouchResponse) {
-                        setState(() {
-                          final desiredTouch = pieTouchResponse.touchInput
-                                  is! PointerExitEvent &&
-                              pieTouchResponse.touchInput is! PointerUpEvent;
-                          if (desiredTouch &&
-                              pieTouchResponse.touchedSection != null) {
-                            touchedIndex = pieTouchResponse
-                                .touchedSection!.touchedSectionIndex;
-                          } else {
-                            touchedIndex = -1;
-                          }
-                        });
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 40,
-                      sections: showingSections()),
-                ),
-              ),
+            const Text(
+              "Students Proportion",
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const <Widget>[
-                Indicator(
-                  color: Color(0xff0293ee),
-                  text: 'First',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xfff8b250),
-                  text: 'Second',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xffff5182),
-                  text: 'Third',
-                  isSquare: true,
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Color(0xff13d38e),
-                  text: 'Fourth',
-                  isSquare: true,
-                ),
-                SizedBox(
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 20,
+            ),
+            Row(
+              children: <Widget>[
+                const SizedBox(
                   height: 18,
+                ),
+                Expanded(
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: PieChart(
+                      PieChartData(
+                          pieTouchData:
+                              PieTouchData(touchCallback: (pieTouchResponse) {
+                            setState(() {
+                              final desiredTouch = pieTouchResponse.touchInput
+                                      is! PointerExitEvent &&
+                                  pieTouchResponse.touchInput
+                                      is! PointerUpEvent;
+                              if (desiredTouch &&
+                                  pieTouchResponse.touchedSection != null) {
+                                touchedIndex = pieTouchResponse
+                                    .touchedSection!.touchedSectionIndex;
+                              } else {
+                                touchedIndex = -1;
+                              }
+                            });
+                          }),
+                          borderData: FlBorderData(
+                            show: false,
+                          ),
+                          sectionsSpace: 0,
+                          centerSpaceRadius: 40,
+                          sections: showingSections()),
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const <Widget>[
+                    Indicator(
+                      color: Color.fromARGB(255, 100, 6, 33),
+                      text: 'Male',
+                      isSquare: true,
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Indicator(
+                      color: Color.fromARGB(255, 2, 103, 40),
+                      text: 'Female',
+                      isSquare: true,
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Indicator(
+                      color: Color.fromARGB(255, 4, 95, 102),
+                      text: 'Other',
+                      isSquare: true,
+                    ),
+                    SizedBox(
+                      height: 18,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 28,
                 ),
               ],
             ),
-            const SizedBox(
-              width: 28,
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 20,
             ),
           ],
         ),
@@ -183,16 +193,16 @@ class PieChart2State extends State {
   }
 
   List<PieChartSectionData> showingSections() {
-    return List.generate(4, (i) {
+    return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: const Color(0xff0293ee),
-            value: 40,
-            title: '40%',
+            color: const Color.fromARGB(255, 92, 0, 26),
+            value: 45,
+            title: '45%',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -201,9 +211,9 @@ class PieChart2State extends State {
           );
         case 1:
           return PieChartSectionData(
-            color: const Color(0xfff8b250),
-            value: 30,
-            title: '30%',
+            color: const Color.fromARGB(255, 1, 85, 1),
+            value: 40,
+            title: '40%',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -212,18 +222,7 @@ class PieChart2State extends State {
           );
         case 2:
           return PieChartSectionData(
-            color: const Color(0xffff5182),
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: const Color(0xff13d38e),
+            color: const Color.fromARGB(255, 5, 76, 82),
             value: 15,
             title: '15%',
             radius: radius,
@@ -591,27 +590,15 @@ class LineChartSample1State extends State<LineChartSample1> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  const SizedBox(
-                    height: 37,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 30,
                   ),
                   const Text(
-                    'Unfold Shop 2021',
+                    'Monthly Performance',
                     style: TextStyle(
-                      color: Color(0xff827daa),
-                      fontSize: 16,
+                      color: Colors.white,
+                      fontSize: 18,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  const Text(
-                    'Monthly Sales',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -620,11 +607,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16.0, left: 6.0),
-                      child: LineChart(
-                        isShowingMainData ? sampleData1() : sampleData2(),
-                        swapAnimationDuration:
-                            const Duration(milliseconds: 250),
-                      ),
+                      child: LineChart(sampleData1()),
                     ),
                   ),
                   const SizedBox(
@@ -632,18 +615,6 @@ class LineChartSample1State extends State<LineChartSample1> {
                   ),
                 ],
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.refresh,
-                  color:
-                      Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
-                ),
-                onPressed: () {
-                  setState(() {
-                    isShowingMainData = !isShowingMainData;
-                  });
-                },
-              )
             ],
           ),
         ),
@@ -1027,45 +998,16 @@ class BarChartSample2State extends State<BarChartSample2> {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const <Widget>[
-                    //makeTransactionsIcon(),
-                    Text(
-                      'Monthly Profits',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                    Text(
-                      r'$345,462',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
-                      'Of ',
-                      style: TextStyle(color: Color(0xff77839a), fontSize: 16),
-                    ),
-                    Text(
-                      'Sales ',
-                      style: TextStyle(color: leftBarColor, fontSize: 16),
+                    //makeTransactionsIcon(),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 20,
                     ),
                     const Text(
-                      'And ',
-                      style: TextStyle(color: Color(0xff77839a), fontSize: 16),
-                    ),
-                    Text(
-                      'Orders',
-                      style: TextStyle(color: rightBarColor, fontSize: 16),
+                      'Weakly Profit',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ],
                 ),
@@ -1168,11 +1110,11 @@ class BarChartSample2State extends State<BarChartSample2> {
                             reservedSize: 14,
                             getTitles: (value) {
                               if (value == 0) {
-                                return '1K';
+                                return '25K';
                               } else if (value == 10) {
-                                return '5K';
+                                return '50K';
                               } else if (value == 19) {
-                                return '10K';
+                                return '75K';
                               } else {
                                 return '';
                               }

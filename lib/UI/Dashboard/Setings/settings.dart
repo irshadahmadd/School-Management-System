@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> {
     //     FirebaseFirestore.instance.collection("Admin").doc('AdminInformation');
 
     return Consumer<StudentProvider>(
-      builder: (context, model, child) => Padding(
+      builder: (context, provider, child) => Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.height / 50),
         child: SingleChildScrollView(
           child: Column(
@@ -85,16 +85,16 @@ class _SettingsState extends State<Settings> {
                               children: [
                                 Column(
                                   children: [
-                                    model.adminPicUrl.isEmpty
+                                    provider.adminPicUrl.isEmpty
                                         ? const CircleAvatar(
                                             radius: 50,
                                             backgroundColor: Color.fromARGB(
                                                 255, 0, 132, 255),
                                           )
                                         : CircleAvatar(
-                                            backgroundImage:
-                                                Image.network(model.adminPicUrl)
-                                                    .image,
+                                            backgroundImage: Image.network(
+                                                    provider.adminPicUrl)
+                                                .image,
                                             radius: 50,
                                           ),
                                     StreamBuilder(
@@ -142,7 +142,7 @@ class _SettingsState extends State<Settings> {
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            model.uploadAdminPIc();
+                                            provider.uploadAdminPIc();
                                           },
                                           child: Container(
                                             width: MediaQuery.of(context)
