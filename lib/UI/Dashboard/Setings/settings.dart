@@ -168,8 +168,8 @@ class _SettingsState extends State<Settings> {
                                                 .update(
                                                     {'AdminPicURL': adminURL});
 
-                                            print(
-                                                "=============PICTURE  $adminURL");
+                                            // print(
+                                            //     "=============PICTURE  $adminURL");
                                           },
                                           child: Container(
                                             width: MediaQuery.of(context)
