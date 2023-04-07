@@ -7,7 +7,6 @@ import 'package:school_managment_system/Core/provider/student_provider.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
-
   @override
   State<Settings> createState() => _SettingsState();
 }
@@ -18,7 +17,6 @@ class _SettingsState extends State<Settings> {
   @override
   void initState() {
     init();
-    // TODO: implement initState
     super.initState();
   }
 
