@@ -504,8 +504,7 @@ class _SubjectsState extends State<Subjects> {
                               subjectModel.subjectID = sID;
                               await firestore
                                   .collection("Subjects")
-                                  .doc(sID.toString())
-                                  .set(subjectModel.toJson())
+                                  .add(subjectModel.toJson())
                                   .then((value) => {
                                         searchController =
                                             TextEditingController(),

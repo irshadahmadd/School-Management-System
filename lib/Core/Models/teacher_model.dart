@@ -10,7 +10,7 @@ class TeacherModel {
   String? tsubject;
   String? taddrss;
   String? tjoiningDate;
-  int? teacherID;
+  String? teacherID;
 
   TeacherModel(
       {this.tFname,

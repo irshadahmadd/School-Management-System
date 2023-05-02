@@ -58,6 +58,7 @@ class _AddTeacherState extends State<AddTeacher> {
   TextEditingController teacherJoiningDate = TextEditingController();
   TextEditingController teacherSubject = TextEditingController();
   TextEditingController teacherAddress = TextEditingController();
+  TextEditingController teacherID = TextEditingController();
   String dropdownvalueGender = '';
   String dropdownvalueReligion = '';
   DateTime date = DateTime.now();
@@ -726,9 +727,8 @@ class _AddTeacherState extends State<AddTeacher> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text(
-                                      " ",
-                                      style:
-                                          TextStyle(color: Colors.transparent),
+                                      "Teacher ID *",
+                                      style: TextStyle(color: Colors.white),
                                     ),
                                     SizedBox(
                                       height:
@@ -741,6 +741,20 @@ class _AddTeacherState extends State<AddTeacher> {
                                       height:
                                           MediaQuery.of(context).size.height /
                                               20,
+                                      child: TextFormField(
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        controller: teacherID,
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (teacherJoiningDate.text.isEmpty) {
+                                            return "Enter ID";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -832,7 +846,7 @@ class _AddTeacherState extends State<AddTeacher> {
                             teacherModel.tsubject = teacherSubject.text;
                             teacherModel.taddrss = teacherAddress.text;
                             teacherModel.tjoiningDate = teacherJoiningDate.text;
-                            teacherModel.teacherID = tID;
+                            teacherModel.teacherID = teacherID.text;
 
                             const CircularProgressIndicator(
                               strokeWidth: 7,
@@ -852,6 +866,7 @@ class _AddTeacherState extends State<AddTeacher> {
                               teacherJoiningDate = TextEditingController();
                               teacherSubject = TextEditingController();
                               teacherAddress = TextEditingController();
+                              teacherID = TextEditingController();
                               setState(() {
                                 loading = false;
                               });

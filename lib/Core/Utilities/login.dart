@@ -154,10 +154,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                       value.user!.email.toString(),
                                     ),
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const TestingScreen()))
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const TestingScreen(),
+                                      ),
+                                    ),
                                   },
                                 )
                                 .onError(

@@ -55,6 +55,7 @@ class _AddStudentState extends State<AddStudent> {
   TextEditingController studentBloodGroup = TextEditingController();
   TextEditingController studentReligion = TextEditingController();
   TextEditingController studentAdmissionDate = TextEditingController();
+  TextEditingController studentID = TextEditingController();
   String dropdownvalueGender = '';
   String dropdownvalueClass = '';
   String dropdownvalueReligion = '';
@@ -68,34 +69,35 @@ class _AddStudentState extends State<AddStudent> {
   TextEditingController parentsOccupation = TextEditingController();
   TextEditingController parentsAddress = TextEditingController();
   TextEditingController parentsReligion = TextEditingController();
+  TextEditingController parentsID = TextEditingController();
 
-  void studentIdUpdate() async {
-    await firestore
-        .collection("StudentID")
-        .doc(id.toString())
-        .set({"lastAssignId": id}).then(
-      (value) => {
-        getLastId(),
-      },
-    );
-  }
+  // void studentIdUpdate() async {
+  //   await firestore
+  //       .collection("StudentID")
+  //       .doc(id.toString())
+  //       .set({"lastAssignId": id}).then(
+  //     (value) => {
+  //       getLastId(),
+  //     },
+  //   );
+  // }
 
-  // getting last id
+  // // getting last id
 
-  void getLastId() async {
-    final result =
-        await firestore.collection("StudentID").doc(id.toString()).get();
-    id = result['lastAssignId'];
-    id++;
-  }
+  // void getLastId() async {
+  //   final result =
+  //       await firestore.collection("StudentID").doc(id.toString()).get();
+  //   id = result['lastAssignId'];
+  //   id++;
+  // }
 
-  @override
-  void initState() {
-    getLastId();
-    super.initState();
-    // id++;
-    // studentIdUpdate();
-  }
+  // @override
+  // void initState() {
+  //   getLastId();
+  //   super.initState();
+  //   // id++;
+  //   // studentIdUpdate();
+  // }
 
   //drop Downs Lists
   var itemsGender = [
@@ -631,9 +633,8 @@ class _AddStudentState extends State<AddStudent> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text(
-                                      " ",
-                                      style:
-                                          TextStyle(color: Colors.transparent),
+                                      "Student ID *",
+                                      style: TextStyle(color: Colors.white),
                                     ),
                                     SizedBox(
                                       height:
@@ -646,6 +647,21 @@ class _AddStudentState extends State<AddStudent> {
                                       height:
                                           MediaQuery.of(context).size.height /
                                               20,
+                                      child: TextFormField(
+                                        controller: studentID,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (studentAdmissionDate
+                                              .text.isEmpty) {
+                                            return "Enter admission date";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -957,9 +973,8 @@ class _AddStudentState extends State<AddStudent> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text(
-                                      " ",
-                                      style:
-                                          TextStyle(color: Colors.transparent),
+                                      "Parents ID *",
+                                      style: TextStyle(color: Colors.white),
                                     ),
                                     SizedBox(
                                       height:
@@ -972,6 +987,21 @@ class _AddStudentState extends State<AddStudent> {
                                       height:
                                           MediaQuery.of(context).size.height /
                                               20,
+                                      child: TextFormField(
+                                        controller: parentsID,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                        decoration:
+                                            kTtextfieldDecoration.copyWith(),
+                                        validator: (value) {
+                                          if (studentAdmissionDate
+                                              .text.isEmpty) {
+                                            return "Enter admission date";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1059,6 +1089,7 @@ class _AddStudentState extends State<AddStudent> {
                             studentModel.studentBG = studentBloodGroup.text;
                             studentModel.studentR = studentReligion.text;
                             studentModel.studentAD = studentAdmissionDate.text;
+                            studentModel.studentID = studentID.text;
                             studentModel.fatherN = fatherName.text;
                             studentModel.motherN = motherName.text;
                             studentModel.parentE = parentsEmail.text;
@@ -1066,7 +1097,7 @@ class _AddStudentState extends State<AddStudent> {
                             studentModel.parentO = parentsOccupation.text;
                             studentModel.parentA = parentsAddress.text;
                             studentModel.parentR = parentsReligion.text;
-                            studentModel.studentID = id;
+                            studentModel.parentID = parentsID.text;
 
                             const CircularProgressIndicator(
                               strokeWidth: 3,
@@ -1083,6 +1114,7 @@ class _AddStudentState extends State<AddStudent> {
                               studentBloodGroup = TextEditingController();
                               studentReligion = TextEditingController();
                               studentAdmissionDate = TextEditingController();
+                              studentID = TextEditingController();
                               parentsAddress = TextEditingController();
                               parentsEmail = TextEditingController();
                               parentsOccupation = TextEditingController();
@@ -1090,6 +1122,7 @@ class _AddStudentState extends State<AddStudent> {
                               parentsReligion = TextEditingController();
                               fatherName = TextEditingController();
                               motherName = TextEditingController();
+                              parentsID = TextEditingController();
                               setState(() {
                                 loading = false;
                               });
@@ -1100,7 +1133,7 @@ class _AddStudentState extends State<AddStudent> {
                               });
                               Utilities().toastMessage(error.toString());
                             });
-                            studentIdUpdate();
+                            // studentIdUpdate();
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width / 16,

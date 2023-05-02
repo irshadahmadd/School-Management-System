@@ -14,26 +14,27 @@ class StudentModel {
   String? parentA;
   String? parentR;
   String? image;
-  int? studentID;
+  String? studentID;
+  String? parentID;
 
-  StudentModel({
-    this.studentN,
-    this.studentG,
-    this.studentC,
-    this.studentDOB,
-    this.studentBG,
-    this.studentR,
-    this.studentAD,
-    this.fatherN,
-    this.motherN,
-    this.parentE,
-    this.parentP,
-    this.parentO,
-    this.parentA,
-    this.parentR,
-    this.studentID,
-    this.image,
-  });
+  StudentModel(
+      {this.studentN,
+      this.studentG,
+      this.studentC,
+      this.studentDOB,
+      this.studentBG,
+      this.studentR,
+      this.studentAD,
+      this.fatherN,
+      this.motherN,
+      this.parentE,
+      this.parentP,
+      this.parentO,
+      this.parentA,
+      this.parentR,
+      this.studentID,
+      this.image,
+      this.parentID});
 
   StudentModel.fromJson(Map<String, dynamic> json) {
     studentN = json['studentN'];
@@ -52,6 +53,7 @@ class StudentModel {
     parentR = json['parentR'];
     studentID = json['studentID'];
     image = json['image'];
+    parentID = json['parentID'];
   }
 
   Map<String, dynamic> toJson() {
@@ -71,6 +73,7 @@ class StudentModel {
     data['parentA'] = parentA;
     data['parentR'] = parentR;
     data['studentID'] = studentID;
+    data['parentID'] = parentID;
     return data;
   }
 }

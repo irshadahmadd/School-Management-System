@@ -293,7 +293,7 @@ class _ParentsState extends State<Parents> {
                                               ),
                                               child: Text(
                                                 snapshots.data!
-                                                    .docs[index]["studentID"]
+                                                    .docs[index]["parentID"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),

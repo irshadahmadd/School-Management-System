@@ -356,14 +356,13 @@ class _SignUpState extends State<SignUp> {
                               (value) => {
                                 auth.createUserWithEmailAndPassword(
                                     email: email.text, password: passward.text),
-                                Utilities().toastMessage(
-                                    "Your Admin Account has been created"),
+                                Utilities().toastMessage("Admin Registered"),
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => const LoginScreen(),
                                   ),
-                                ),
+                                )
                               },
                             )
                             .onError(
