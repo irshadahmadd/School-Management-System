@@ -24,28 +24,29 @@ class _SubjectsState extends State<Subjects> {
   SubjectModel subjectModel = SubjectModel();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  int sID = 0;
+
   final firestoreref =
       FirebaseFirestore.instance.collection("Subjects").snapshots();
-  void updateSubjectID() async {
-    await firestore.collection("SubjectID").doc(sID.toString()).set({
-      "lastsignID": sID,
-    }).then((value) => getLastAsignedSubjectID());
-  }
+  // int sID = 0;
+  // void updateSubjectID() async {
+  //   await firestore.collection("SubjectID").doc(sID.toString()).set({
+  //     "lastsignID": sID,
+  //   }).then((value) => getLastAsignedSubjectID());
+  // }
 
-  void getLastAsignedSubjectID() async {
-    final lastID =
-        await firestore.collection("SubjectID").doc(sID.toString()).get();
-    sID = lastID["lastsignID"];
-    sID++;
-    setState(() {});
-  }
+  // void getLastAsignedSubjectID() async {
+  //   final lastID =
+  //       await firestore.collection("SubjectID").doc(sID.toString()).get();
+  //   sID = lastID["lastsignID"];
+  //   sID++;
+  //   setState(() {});
+  // }
 
-  @override
-  void initState() {
-    getLastAsignedSubjectID();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   getLastAsignedSubjectID();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -501,7 +502,6 @@ class _SubjectsState extends State<Subjects> {
                               subjectModel.teacherName = teacher.text;
                               subjectModel.classes = classes.text;
                               subjectModel.dayes = dayes.text;
-                              subjectModel.subjectID = sID;
                               await firestore
                                   .collection("Subjects")
                                   .add(subjectModel.toJson())
@@ -521,7 +521,7 @@ class _SubjectsState extends State<Subjects> {
                                             .toastMessage(error.toString()),
                                       });
 
-                              updateSubjectID();
+                              // updateSubjectID();
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,

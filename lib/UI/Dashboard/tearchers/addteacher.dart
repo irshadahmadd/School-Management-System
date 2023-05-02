@@ -64,31 +64,31 @@ class _AddTeacherState extends State<AddTeacher> {
   DateTime date = DateTime.now();
   //Parents Controllers
 
-  void teacherIdUpdate() async {
-    await firestore
-        .collection("TeacherID")
-        .doc(tID.toString())
-        .set({"lastAssignId": tID}).then((value) => {
-              getLastId(),
-            });
-  }
+  // void teacherIdUpdate() async {
+  //   await firestore
+  //       .collection("TeacherID")
+  //       .doc(tID.toString())
+  //       .set({"lastAssignId": tID}).then((value) => {
+  //             getLastId(),
+  //           });
+  // }
 
-  // getting last id
+  // // getting last id
 
-  void getLastId() async {
-    final result =
-        await firestore.collection("TeacherID").doc(tID.toString()).get();
-    tID = result['lastAssignId'];
-    tID++;
-  }
+  // void getLastId() async {
+  //   final result =
+  //       await firestore.collection("TeacherID").doc(tID.toString()).get();
+  //   tID = result['lastAssignId'];
+  //   tID++;
+  // }
 
-  @override
-  void initState() {
-    getLastId();
-    super.initState();
-    // id++;
-    // studentIdUpdate();
-  }
+  // @override
+  // void initState() {
+  //   getLastId();
+  //   super.initState();
+  //   // id++;
+  //   // studentIdUpdate();
+  // }
 
   //drop Downs Lists
   var itemsGender = [
@@ -877,7 +877,7 @@ class _AddTeacherState extends State<AddTeacher> {
                               });
                               Utilities().toastMessage(error.toString());
                             });
-                            teacherIdUpdate();
+                            // teacherIdUpdate();
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width / 16,
