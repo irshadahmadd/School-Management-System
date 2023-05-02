@@ -20,8 +20,6 @@ class StudentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///
-
   uploadAdminPIc() async {
     FilePickerResult? filePickerResult;
     filePickerResult = await FilePicker.platform.pickFiles(
@@ -36,6 +34,8 @@ class StudentProvider extends ChangeNotifier {
         final uploadTask = refrence.putData(bts!);
         final snapshot = await uploadTask;
         adminPicUrl = await snapshot.ref.getDownloadURL();
+        print("this is admin pics url==================================");
+        print(adminPicUrl);
 
         notifyListeners();
       } catch (e) {

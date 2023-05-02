@@ -31,8 +31,8 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    // final DocumentReference ref =
-    //     FirebaseFirestore.instance.collection("Admin").doc('AdminInformation');
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection("Admin").doc('AdminInformation');
     final firestore = FirebaseFirestore.instance
         .collection("Admin")
         .doc('AdminInformation')

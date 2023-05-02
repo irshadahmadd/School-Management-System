@@ -14,7 +14,6 @@ class AddExpanses extends StatefulWidget {
 }
 
 class _AddExpansesState extends State<AddExpanses> {
-  int expID = 0;
   TextEditingController searchController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController ename = TextEditingController();
@@ -28,38 +27,6 @@ class _AddExpansesState extends State<AddExpanses> {
   TextEditingController classs = TextEditingController();
   ExpansesModel expansesModel = ExpansesModel();
   FirebaseFirestore firestores = FirebaseFirestore.instance;
-  int expansesID = 0;
-  void expansesIdUpdate() async {
-    await firestores
-        .collection("ExpansesID")
-        .doc(expansesID.toString())
-        .set({"lastExpansesID": expansesID}).then(
-      (value) => {getLastId()},
-    );
-    // print('first function $expansesID');
-  }
-
-  // getting last id
-  void getLastId() async {
-    final result = await firestores
-        .collection("ExpansesID")
-        .doc(expansesID.toString())
-        .get();
-    expansesID = result['lastExpansesID'];
-    setState(
-      () {
-        expansesID++;
-      },
-    );
-
-    // print('second function $expansesID');
-  }
-
-  @override
-  void initState() {
-    getLastId();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -440,7 +407,6 @@ class _AddExpansesState extends State<AddExpanses> {
                               expansesModel.pEmail = email.text;
                               expansesModel.dueDate = duedate.text;
                               expansesModel.gender = genders.text;
-                              expansesModel.expansesID = expID;
 
                               const CircularProgressIndicator(
                                 strokeWidth: 7,
@@ -471,11 +437,6 @@ class _AddExpansesState extends State<AddExpanses> {
                                       ),
                                     },
                                   );
-                              setState(() {
-                                expID++;
-                              });
-
-                              expansesIdUpdate();
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 16,
