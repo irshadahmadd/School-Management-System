@@ -459,10 +459,6 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 6,
                   ),
-                  const Text(
-                    "Sign in to the website by using your admin account.",
-                    style: TextStyle(color: Colors.white, fontSize: 13),
-                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 40,
                   ),

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_managment_system/Core/Constants/constants.dart';
-import 'package:school_managment_system/Core/Models/app_user_model.dart';
 import 'package:school_managment_system/Core/provider/student_provider.dart';
 
 class Settings extends StatefulWidget {
@@ -13,26 +12,14 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   FirebaseFirestore firestoreinstance = FirebaseFirestore.instance;
-  AppUserModel admin = AppUserModel();
+
   @override
   void initState() {
-    init();
     super.initState();
-  }
-
-  init() async {
-    final firestore = await FirebaseFirestore.instance
-        .collection("Admin")
-        .doc('AdminInformation')
-        .get();
-    admin = AppUserModel.fromJson(firestore.data()!);
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final DocumentReference ref =
-        FirebaseFirestore.instance.collection("Admin").doc('AdminInformation');
     final firestore = FirebaseFirestore.instance
         .collection("Admin")
         .doc('AdminInformation')
@@ -102,17 +89,18 @@ class _SettingsState extends State<Settings> {
                               children: [
                                 Column(
                                   children: [
-                                    admin.imageUrl == null
-                                        ? const CircleAvatar(
+                                    provider.admin.imageUrl != null
+                                        ? CircleAvatar(
+                                            backgroundImage: Image.network(
+                                                    provider.adminPicUrl
+                                                        .toString())
+                                                .image,
+                                            radius: 50,
+                                          )
+                                        : const CircleAvatar(
                                             radius: 50,
                                             backgroundColor: Color.fromARGB(
                                                 255, 0, 132, 255),
-                                          )
-                                        : CircleAvatar(
-                                            backgroundImage: Image.network(
-                                                    admin.imageUrl.toString())
-                                                .image,
-                                            radius: 50,
                                           ),
                                     StreamBuilder(
                                       stream: firestore,

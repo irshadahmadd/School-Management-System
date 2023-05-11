@@ -105,9 +105,16 @@ class _DashboardMainState extends State<TestingScreen> {
                   color: Colors.white,
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width / 150),
-                CircleAvatar(
-                  backgroundImage: Image.network(provider.adminPicUrl).image,
-                ),
+                provider.admin.imageUrl != null
+                    ? CircleAvatar(
+                        backgroundImage:
+                            Image.network(provider.adminPicUrl.toString())
+                                .image,
+                      )
+                    : const CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Color.fromARGB(255, 230, 173, 2),
+                      ),
                 SizedBox(width: MediaQuery.of(context).size.width / 150),
               ],
             )

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,19 @@ class StudentProvider extends ChangeNotifier {
   changeScreen(int indexx) {
     // print(indexx);
     studentsIndex = indexx;
+    notifyListeners();
+  }
+
+  StudentProvider() {
+    init();
+  }
+
+  init() async {
+    final firestore = await FirebaseFirestore.instance
+        .collection("Admin")
+        .doc('AdminInformation')
+        .get();
+    admin = AppUserModel.fromJson(firestore.data()!);
     notifyListeners();
   }
 
@@ -34,14 +48,13 @@ class StudentProvider extends ChangeNotifier {
         final uploadTask = refrence.putData(bts!);
         final snapshot = await uploadTask;
         adminPicUrl = await snapshot.ref.getDownloadURL();
-        print("this is admin pics url==================================");
-        print(adminPicUrl);
-
-        notifyListeners();
+        admin.imageUrl = adminPicUrl;
       } catch (e) {
         // print(e);
       }
     }
+
+    notifyListeners();
   }
 
   int accountsIndex = 0;
