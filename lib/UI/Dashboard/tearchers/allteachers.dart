@@ -317,6 +317,20 @@ class _AllTeachersState extends State<AllTeachers> {
                                                           .width /
                                                       180),
                                               child: Text(
+                                                snapshots.data!
+                                                    .docs[index]["tgender"]
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      180),
+                                              child: Text(
                                                 snapshots
                                                     .data!.docs[index]["tDOB"]
                                                     .toString(),
@@ -347,20 +361,6 @@ class _AllTeachersState extends State<AllTeachers> {
                                               child: Text(
                                                 snapshots.data!
                                                     .docs[index]["tsubject"]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      180),
-                                              child: Text(
-                                                snapshots.data!
-                                                    .docs[index]["tjoiningdate"]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white),

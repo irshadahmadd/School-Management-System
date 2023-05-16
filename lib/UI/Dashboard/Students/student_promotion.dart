@@ -341,6 +341,7 @@ class _StudentPromotionState extends State<StudentPromotion> {
                               // studentModel.studentID = id;
 
                               // print("this is  id $GlobalID");
+                              print("user id: $GlobalID");
                               pclass = promotionClass.text;
                               FirebaseFirestore.instance
                                   .collection('Student')
